@@ -3,11 +3,8 @@ return require("packer").startup(function()
 		"wbthomason/packer.nvim",
 		opt = false,
 	})
-	use({
-		"neovim/nvim-lspconfig",
-		"williamboman/nvim-lsp-installer",
-	})
 	use("nvim-lua/plenary.nvim")
+	use("neovim/nvim-lspconfig")
 	use("nvim-telescope/telescope.nvim")
 	use("jose-elias-alvarez/null-ls.nvim")
 	use({
