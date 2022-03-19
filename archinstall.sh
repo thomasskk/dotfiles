@@ -16,12 +16,7 @@ umount -A --recursive /mnt
 echo ""
 echo "Select a disk to install on :"
 select disk in $(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print"/dev/"$2"|"$3}'); do
-	case "$disk" in
-	*)
-		DISK=$(echo "$disk" | awk -F "|" '{print $1}')
-		break
-		;;
-	esac
+	DISK=$(echo "$disk" | awk -F "|" '{print $1}')
 done
 
 # Wipe the partition
@@ -69,7 +64,6 @@ reflector -a 12 -f 5 -c 'France' -p https --sort rate --save /etc/pacman.d/mirro
 pacstrap /mnt base linux linux-firmware
 
 genfstab -U /mnt >>/mnt/etc/fstab
-arch-chroot /mnt
 
 # Basic config
 loadkeys us
@@ -84,7 +78,7 @@ echo "127.0.0.1 localhost" >>/etc/hosts
 echo "::1       localhost" >>/etc/hosts
 echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 
-pacman -S --noconfirm grup dhcpcd
+pacman -Sy --noconfirm grup dhcpcd
 
 grub-install --target=i386-pc "/dev/${DISK}"
 grub-mkconfig -o /boot/grub/grub.cfg
