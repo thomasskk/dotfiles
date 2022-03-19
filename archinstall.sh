@@ -17,6 +17,7 @@ echo ""
 echo "Select a disk to install on :"
 select disk in $(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print"/dev/"$2"|"$3}'); do
 	DISK=$(echo "$disk" | awk -F "|" '{print $1}')
+	break
 done
 
 # Wipe the partition
