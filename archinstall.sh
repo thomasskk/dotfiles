@@ -48,6 +48,9 @@ mkswap "$p2"
 mkfs.ext4 "$p3"
 mkfs.ext4 "$p4"
 
+mkdir /mnt/boot
+mkdir /mnt/home
+
 # Mount partition
 mount "$p1" /mnt/boot
 swapon "$p2"
