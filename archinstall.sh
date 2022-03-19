@@ -16,10 +16,12 @@ umount -A --recursive /mnt
 echo ""
 echo "Select a disk to install on :"
 select disk in $(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print"/dev/"$2"|"$3}'); do
-	if [ "$disk" != "" ]; then
+	case "$disk" in
+	*)
 		DISK=$(echo "$disk" | awk -F "|" '{print $1}')
 		break
-	fi
+		;;
+	esac
 done
 
 # Wipe the partition
