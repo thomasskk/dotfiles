@@ -1,99 +1,145 @@
 #!/bin/bash
 
 ##########################################################################
-# INTERNET
-##########################################################################
-timedatectl set-ntp true
-
-##########################################################################
 # DISK
 ##########################################################################
 
-# Unmount everything
-umount -A --recursive /mnt
-
 # Disk selection
-echo ""
+clear
 echo "Select a disk to install on :"
 select disk in $(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print"/dev/"$2"|"$3}'); do
 	DISK=$(echo "$disk" | awk -F "|" '{print $1}')
 	break
 done
 
-# Wipe the partition
-sgdisk -Z "${DISK}"
-
 # Partition the drive
+clear
+umount -A --recursive /mnt
+sgdisk -Z "${DISK}"
 sgdisk -n 1::+512M -t 1:ef00 -c 1:EFI "$DISK"
 sgdisk -n 2::+3G -t 2:8200 -c 2:SWAP "$DISK"
-sgdisk -n 3::+15G -t 3:8300 -c 3:ROOT "$DISK"
-sgdisk -n 4 -c 4:HOME "$DISK"
+sgdisk -n 3 -t 3:8300 -c 3:ROOT "$DISK"
 
-# Determine partition name
+# Detect if nvme protocol
 if [[ "${DISK}" =~ "nvme" ]]; then
-	p1=${DISK}p1
-	p2=${DISK}p2
-	p3=${DISK}p3
-	p4=${DISK}p4
+	p1="${DISK}p1"
+	p2="${DISK}p2"
+	p3="${DISK}p3"
 else
-	p1=${DISK}1
-	p2=${DISK}2
-	p3=${DISK}3
-	p4=${DISK}4
+	p1="${DISK}1"
+	p2="${DISK}2"
+	p3="${DISK}3"
 fi
 
 # Format partition
-mkfs.fat -F 32 "$p1"
+clear
+mkfs.fat -F32 "$p1"
+swapoff "$p2"
 mkswap "$p2"
 mkfs.ext4 "$p3"
-mkfs.ext4 "$p4"
-
-mkdir /mnt/boot
-mkdir /mnt/home
 
 # Mount partition
-mount "$p1" /mnt/boot
-swapon "$p2"
+clear
 mount "$p3" /mnt
-mount "$p4" /mnt/home
+swapon "$p2"
+mkdir /mnt/boot
+mount "$p1" /mnt/boot
 
 ##########################################################################
 # SYSTEM
 ##########################################################################
 
-# Set mirrors for pacman
-reflector -a 12 -f 5 -c 'France' -p https --sort rate --save /etc/pacman.d/mirrorlist
-
 # Install kernel
+clear
 pacstrap /mnt base linux linux-firmware
 
+# Filesystems config
+clear
 genfstab -U /mnt >>/mnt/etc/fstab
 
-# Basic config
-loadkeys us
-ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
-hwclock --systohc --localtime
-echo "en_US.UTF-8 UTF-8" >/etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+check_pass() {
+	echo
+	read -s -p "Password: " PASSWORD
+	echo
+	read -s -p "Confirm Password: " PASSCONFIRM
+	echo
+	if [[ "$PASSWORD" != "$PASSCONFIRM" || "$PASSWORD" = "" ]]; then
+		echo "Passwords do not match"
+		check_pass
+	fi
+}
+check_pass
 
-echo "arch" >>/etc/hostname
-echo "127.0.0.1 localhost" >>/etc/hosts
-echo "::1       localhost" >>/etc/hosts
-echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
+arch-chroot /mnt /bin/bash <<-EOF
 
-pacman -Sy --noconfirm grup dhcpcd
+	loadkeys us
+	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+	hwclock --systohc --localtime
+	echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+	locale-gen
+	echo "LANG=en_US.UTF-8" >>/etc/locale.conf
 
-grub-install --target=i386-pc "/dev/${DISK}"
-grub-mkconfig -o /boot/grub/grub.cfg
+	echo "arch" >>/etc/hostname
+	echo "127.0.0.1 localhost" >>/etc/hosts
+	echo "::1       localhost" >>/etc/hosts
+	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 
-systemctl enable NetworkManager
-systemctl enable dhcpcd.service
-systemctl enable sshd
+	pacman -Syu
+	pacman -S --noconfirm reflector efibootmgr
+	reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
+	pacman -S --nocomfirm grub dhcpcd networkmanager efibootmgr openssh util-linux sudo
 
-echo root:password | chpasswd
-echo thomas:password | chpasswd
-echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
+	pacman -S --noconfirm base-devel git
+	git clone https://aur.archlinux.org/yay.git /tmp
+	makepkg -si --noconfirm /tmp/yay
 
-exit
+	yay -Syu
+	yay -S --noconfirm brave-nightly-bin
+
+	curl https://discord.com/api/download?platform=linux&format=tar.gz -L -o /tmp/discord.tar.gz
+	tar -xvf /tmp/discord.tar.gz -C ~/.local/bin
+	sudo ln -s ~/.local/bin/Discord/discord.png /usr/share/icons/discord.png
+	sudo ln -s ~/.local/bin/Discord/Discord /usr/bin
+
+	pacman -S --noconfirm sudo
+	useradd -m thomas
+	echo "root:${PASSWORD}" | chpasswd
+	echo "thomas:${PASSWORD}" | chpasswd
+	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
+
+	pacman -S --noconfirm grub
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+	grub-mkconfig -o /boot/grub/grub.cfg
+
+	pacman -S --noconfirm zsh zsh-completions
+	curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+	chsh -s /bin/zsh thomas
+
+	pacman -S --noconfirm go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus
+	curl https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz -L -o /tmp/nvim.tar.gz
+	tar xzf /tmp/nvim.tar.gz -C /tmp
+	cp -r /tmp/nvim-linux64/* /usr
+	cpanm -n Neovim::Ext
+	npm i -g eslint yarn prettier typescript pyright neovim
+
+	pacman -S --noconfirm stow
+	git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
+	cd /home/thomas/dotfiles && stow */
+
+	pacman -S --noconfirm docker docker-compose
+
+	pacman -S --noconfirm bspwm sxhkd kitty dmenu sxhkd bspwm picom lightdm nitrogen xorg lightdm-gtk-greeter
+
+	pacman -S --noconfirm dhcpcd openssh networkmanager 
+	systemctl enable lightdm
+	systemctl enable NetworkManager
+	systemctl enable dhcpcd.service
+	systemctl enable sshd
+	systemctl enable reflector.timer
+	systemctl enable fstrim.timer
+	systemctl enable docker.service
+
+EOF
+
+unmount -a
 reboot
