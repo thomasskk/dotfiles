@@ -85,54 +85,41 @@ arch-chroot /mnt /bin/bash <<-EOF
 	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 
 	pacman -Syu
-	pacman -S --noconfirm reflector efibootmgr
+	pacman -S --noconfirm reflector 
 	reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-	pacman -S --nocomfirm grub dhcpcd networkmanager efibootmgr openssh util-linux sudo
+	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still
 
-	pacman -S --noconfirm base-devel git
 	git clone https://aur.archlinux.org/yay.git /tmp
 	makepkg -si --noconfirm /tmp/yay
 
 	yay -Syu
-	yay -S --noconfirm brave-nightly-bin
+	yay -S --noconfirm brave-nightly-bin polybar lazydocker
 
 	curl https://discord.com/api/download?platform=linux&format=tar.gz -L -o /tmp/discord.tar.gz
 	tar -xvf /tmp/discord.tar.gz -C ~/.local/bin
 	sudo ln -s ~/.local/bin/Discord/discord.png /usr/share/icons/discord.png
 	sudo ln -s ~/.local/bin/Discord/Discord /usr/bin
 
-	pacman -S --noconfirm sudo
 	useradd -m thomas
 	echo "root:${PASSWORD}" | chpasswd
 	echo "thomas:${PASSWORD}" | chpasswd
 	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
 
-	pacman -S --noconfirm grub
 	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 	grub-mkconfig -o /boot/grub/grub.cfg
 
-	pacman -S --noconfirm zsh zsh-completions
 	curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 	chsh -s /bin/zsh thomas
 
-	pacman -S --noconfirm go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus
 	curl https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz -L -o /tmp/nvim.tar.gz
 	tar xzf /tmp/nvim.tar.gz -C /tmp
 	cp -r /tmp/nvim-linux64/* /usr
 	cpanm -n Neovim::Ext
 	npm i -g eslint yarn prettier typescript pyright neovim
 
-	pacman -S --noconfirm stow
 	git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
 	cd /home/thomas/dotfiles && stow */
-	stow .xinitrc
 
-	pacman -S --noconfirm docker docker-compose
-
-	pacman --noconfirm -S bspwm dmenu kitty xorg-init lightdm
-	pacman -S --noconfirm dhcpcd openssh networkmanager 
-
-	systemctl enable lightdm
 	systemctl enable NetworkManager
 	systemctl enable dhcpcd.service
 	systemctl enable sshd
