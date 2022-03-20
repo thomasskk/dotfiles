@@ -89,10 +89,12 @@ arch-chroot /mnt /bin/bash <<-EOF
 	pacman -Syu
 	pacman -S --noconfirm reflector 
 	reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still
+	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server
 
-	git clone https://aur.archlinux.org/yay.git /tmp
-	makepkg -si --noconfirm /tmp/yay
+	cd /tmp
+	git clone https://aur.archlinux.org/yay.git 
+	cd yay
+	makepkg -si --noconfirm 
 
 	yay -Syu
 	yay -S --noconfirm brave-nightly-bin polybar lazydocker
