@@ -1,2 +1,3 @@
 sxhkd &
-exec bspwm
+exec bspwm &
+polybar

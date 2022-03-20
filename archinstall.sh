@@ -43,14 +43,8 @@ mount "$p1" /mnt/boot
 # SYSTEM
 ##########################################################################
 
-# Install kernel
+# Set password
 clear
-pacstrap /mnt base linux linux-firmware
-
-# Filesystems config
-clear
-genfstab -U /mnt >>/mnt/etc/fstab
-
 check_pass() {
 	echo
 	read -s -p "Password: " PASSWORD
@@ -63,6 +57,14 @@ check_pass() {
 	fi
 }
 check_pass
+
+# Install kernel
+clear
+pacstrap /mnt base linux linux-firmware
+
+# Filesystems config
+clear
+genfstab -U /mnt >>/mnt/etc/fstab
 
 arch-chroot /mnt /bin/bash <<-EOF
 
