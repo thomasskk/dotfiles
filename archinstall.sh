@@ -16,32 +16,26 @@ done
 clear
 umount -A --recursive /mnt
 sgdisk -Z "${DISK}"
-sgdisk -n 1::+512M -t 1:ef00 -c 1:EFI "$DISK"
-sgdisk -n 2::+3G -t 2:8200 -c 2:SWAP "$DISK"
-sgdisk -n 3 -t 3:8300 -c 3:ROOT "$DISK"
+sgdisk -n 1:0:+512M -t 1:ef00 -c 1:EFI "$DISK"
+sgdisk -n 2:0:0 -t 2:8304 -c 2:ROOT "$DISK"
 
 # Detect if nvme protocol
 if [[ "${DISK}" =~ "nvme" ]]; then
 	p1="${DISK}p1"
 	p2="${DISK}p2"
-	p3="${DISK}p3"
 else
 	p1="${DISK}1"
 	p2="${DISK}2"
-	p3="${DISK}3"
 fi
 
 # Format partition
 clear
 mkfs.fat -F32 "$p1"
-swapoff "$p2"
-mkswap "$p2"
-mkfs.ext4 "$p3"
+mkfs.ext4 "$p2"
 
 # Mount partition
 clear
-mount "$p3" /mnt
-swapon "$p2"
+mount "$p2" /mnt
 mkdir /mnt/boot
 mount "$p1" /mnt/boot
 
@@ -71,6 +65,12 @@ check_pass() {
 check_pass
 
 arch-chroot /mnt /bin/bash <<-EOF
+
+	dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+	chmod 600 /swapfile
+	mkswap /swapfile
+	swapon /swapfile
+	echo "/swapfile none swap defaults 0 0">>/etc/fstab
 
 	loadkeys us
 	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
@@ -125,12 +125,13 @@ arch-chroot /mnt /bin/bash <<-EOF
 	pacman -S --noconfirm stow
 	git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
 	cd /home/thomas/dotfiles && stow */
+	stow .xinitrc
 
 	pacman -S --noconfirm docker docker-compose
 
-	pacman -S --noconfirm bspwm sxhkd kitty dmenu sxhkd bspwm picom lightdm nitrogen xorg lightdm-gtk-greeter
-
+	pacman --noconfirm -S bspwm dmenu kitty xorg-init lightdm
 	pacman -S --noconfirm dhcpcd openssh networkmanager 
+
 	systemctl enable lightdm
 	systemctl enable NetworkManager
 	systemctl enable dhcpcd.service
