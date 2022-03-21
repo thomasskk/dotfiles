@@ -86,7 +86,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 	echo "::1       localhost" >>/etc/hosts
 	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 
-	pacman -Syu
+	pacman -Syu --noconfirm 
 	pacman -S --noconfirm reflector 
 	reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
 	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font
@@ -96,12 +96,11 @@ arch-chroot /mnt /bin/bash <<-EOF
 	echo "thomas:${PASSWORD}" | chpasswd
 	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
 
-	cd /tmp
-	echo "${PASSWORD}" | sudo -S -u thomas su thomas
-	git clone https://aur.archlinux.org/yay.git 
-	cd yay
-	makepkg -si --noconfirm 
-	echo "${PASSWORD}" | sudo -S -u thomas su root
+	git clone https://aur.archlinux.org/yay.git /tmp/yay
+	chown thomas /tmp/yay
+	cd /tmp/yay
+	sudo -u thomas makepkg
+	find . -name '*.zst' -exec pacman -U --noconfirm "{}" \;
 
 	yay -Syu
 	yay -S --noconfirm brave-nightly-bin polybar lazydocker
