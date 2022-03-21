@@ -89,12 +89,19 @@ arch-chroot /mnt /bin/bash <<-EOF
 	pacman -Syu
 	pacman -S --noconfirm reflector 
 	reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server
+	pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm dmenu kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font
+
+	useradd -m thomas
+	echo "root:${PASSWORD}" | chpasswd
+	echo "thomas:${PASSWORD}" | chpasswd
+	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
 
 	cd /tmp
+	echo "${PASSWORD}" | sudo -S -u thomas su thomas
 	git clone https://aur.archlinux.org/yay.git 
 	cd yay
 	makepkg -si --noconfirm 
+	echo "${PASSWORD}" | sudo -S -u thomas su root
 
 	yay -Syu
 	yay -S --noconfirm brave-nightly-bin polybar lazydocker
@@ -103,11 +110,6 @@ arch-chroot /mnt /bin/bash <<-EOF
 	tar -xvf /tmp/discord.tar.gz -C ~/.local/bin
 	sudo ln -s ~/.local/bin/Discord/discord.png /usr/share/icons/discord.png
 	sudo ln -s ~/.local/bin/Discord/Discord /usr/bin
-
-	useradd -m thomas
-	echo "root:${PASSWORD}" | chpasswd
-	echo "thomas:${PASSWORD}" | chpasswd
-	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
 
 	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 	grub-mkconfig -o /boot/grub/grub.cfg
@@ -132,6 +134,3 @@ arch-chroot /mnt /bin/bash <<-EOF
 	systemctl enable docker.service
 
 EOF
-
-unmount -a
-reboot
