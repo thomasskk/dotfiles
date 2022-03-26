@@ -15,8 +15,9 @@ lspconfig.eslint.setup({
 	},
 })
 
-require("lspconfig").bashls.setup({})
+lspconfig.bashls.setup({})
 
+lspconfig.rust_analyzer.setup({})
 lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({
 	-- Needed for inlayHints. Merge this table with your settings or copy
 	-- it from the source if you want to add your own init_options.
@@ -26,6 +27,9 @@ lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({
 	--
 	on_attach = function(client, bufnr)
 		local ts_utils = require("nvim-lsp-ts-utils")
+
+		client.resolved_capabilities.document_formatting = false
+		client.resolved_capabilities.document_range_formatting = false
 
 		-- defaults
 		ts_utils.setup({

@@ -112,12 +112,17 @@ local mappings = {
 			"Diff",
 		},
 	},
+	f = {
+		f = { "<cmd>Telescope find_files<cr>", "hover" },
+		g = { "<cmd>Telescope live_grep<cr>", "hover" },
+	},
 	l = {
 		name = "LSP",
 		k = { "<cmd>lua vim.lsp.buf.hover()<cr>", "hover" },
 		d = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "declaration" },
 		f = { "<cmd>lua vim.lsp.buf.definition()<CR>", "definition" },
 		g = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "type_definition" },
+		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "diagnostic" },
 	},
 	t = {
 		name = "Terminal",
