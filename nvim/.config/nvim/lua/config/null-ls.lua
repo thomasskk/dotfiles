@@ -4,7 +4,6 @@ null_ls.setup({
 	sources = {
 		b.formatting.prettier,
 		b.diagnostics.luacheck,
-		b.code_actions.gitsigns,
 		b.formatting.rustfmt,
 		b.formatting.stylua,
 		b.code_actions.shellcheck,
