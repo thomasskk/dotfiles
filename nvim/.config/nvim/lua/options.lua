@@ -1,4 +1,5 @@
 vim.cmd([[
+:set hidden
 :set number
 :augroup numbertoggle
 :  autocmd!

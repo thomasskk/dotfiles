@@ -7,6 +7,9 @@ vim.g.coq_settings = {
 }
 
 local coq = require("coq")
+require("coq_3p")({
+	{ src = "copilot", short_name = "COP", accept_key = "<c-f>" },
+})
 
 lspconfig.eslint.setup({
 	root_dir = lspconfig.util.root_pattern(".git"),
@@ -16,6 +19,7 @@ lspconfig.eslint.setup({
 })
 
 lspconfig.bashls.setup({})
+lspconfig.tailwindcss.setup(coq.lsp_ensure_capabilities({}))
 
 lspconfig.rust_analyzer.setup({})
 lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({
@@ -28,8 +32,8 @@ lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({
 	on_attach = function(client, bufnr)
 		local ts_utils = require("nvim-lsp-ts-utils")
 
-		client.resolved_capabilities.document_formatting = false
-		client.resolved_capabilities.document_range_formatting = false
+		client.server_capabilities.document_formatting = false
+		client.server_capabilities.document_range_formatting = false
 
 		-- defaults
 		ts_utils.setup({
