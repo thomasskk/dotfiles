@@ -30,7 +30,7 @@ echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 pacman -Syu --noconfirm
 pacman -S --noconfirm reflector
 reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iw bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh
+pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -55,7 +55,7 @@ find . -name '*.zst' -exec pacman -U --noconfirm "{}" \;
 
 # Brave, polybar, lazydocker, lazygit
 yay -Syu
-yay -S --noconfirm brave-bin polybar lazydocker lazygit
+yay -S --noconfirm brave-bin polybar lazydocker lazy-git
 
 # Zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
