@@ -31,9 +31,11 @@ return require("packer").startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 	})
+	use("hrsh7th/cmp-vsnip")
+	use("hrsh7th/vim-vsnip")
+	use("hrsh7th/cmp-nvim-lsp")
+	use("hrsh7th/nvim-cmp")
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
-	use("ms-jpq/coq_nvim")
-	use("ms-jpq/coq.thirdparty")
 	use("windwp/nvim-ts-autotag")
 	use("kyazdani42/nvim-web-devicons")
 	use("folke/which-key.nvim")
