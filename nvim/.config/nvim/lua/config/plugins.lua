@@ -1,4 +1,24 @@
-return require("packer").startup(function()
+local fn = vim.fn
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+	packer_bootstrap = fn.system({
+		"git",
+		"clone",
+		"--depth",
+		"1",
+		"https://github.com/wbthomason/packer.nvim",
+		install_path,
+	})
+end
+
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
+
+return require("packer").startup(function(use)
 	use({
 		"wbthomason/packer.nvim",
 		opt = false,
@@ -13,20 +33,20 @@ return require("packer").startup(function()
 	})
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
 	use("ms-jpq/coq_nvim")
-	use("ms-jpq/coq.artifacts")
 	use("ms-jpq/coq.thirdparty")
 	use("windwp/nvim-ts-autotag")
 	use("kyazdani42/nvim-web-devicons")
 	use("folke/which-key.nvim")
 	use("kyazdani42/nvim-tree.lua")
-	use("navarasu/onedark.nvim")
 	use("lewis6991/gitsigns.nvim")
 	use("itchyny/vim-gitbranch")
 	use("ahmedkhalf/project.nvim")
 	use("glepnir/dashboard-nvim")
 	use("akinsho/toggleterm.nvim")
-	use("echasnovski/mini.nvim")
 	use("stevearc/dressing.nvim")
 	use("github/copilot.vim")
 	use({ "ellisonleao/gruvbox.nvim" })
+	if packer_bootstrap then
+		require("packer").sync()
+	end
 end)

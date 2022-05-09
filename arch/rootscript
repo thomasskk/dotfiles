@@ -30,7 +30,7 @@ echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 pacman -Syu --noconfirm
 pacman -S --noconfirm reflector
 reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh
+pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh polybar lazy-git lua-language-server
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -53,9 +53,9 @@ cd /tmp/yay || exit
 sudo -u thomas makepkg
 find . -name '*.zst' -exec pacman -U --noconfirm "{}" \;
 
-# Brave, polybar, lazydocker, lazygit
+# Brave, lazydocker
 yay -Syu
-yay -S --noconfirm brave-bin polybar lazydocker lazy-git
+yay -S --noconfirm brave-bin lazydocker
 
 # Zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
@@ -65,6 +65,9 @@ yay -S --noconfirm ttf-meslo-nerd-font-powerlevel10k zsh-theme-powerlevel10k-git
 # Dotfiles
 git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
 cd /home/thomas/dotfiles && stow */
+
+# Fonts
+cp /home/thomas/dotfiles/fonts/MesloLGS\ NF\ Regular.ttf /home/thomas/.local/share/fonts/MesloLGS\ NF\ Regular.ttf
 
 ##########################################################################
 # NEOVIM
@@ -79,12 +82,13 @@ cp -r /tmp/nvim-linux64/* /usr
 cpanm -n Neovim::Ext
 
 # JS
-npm i -g eslint yarn prettier typescript neovim
+npm i -g eslint yarn prettier typescript neovim emmet-ls
 
 # Python
 npm i -g pyright
 
 # Bash
+pacman -S shfmt
 go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
 # Lua

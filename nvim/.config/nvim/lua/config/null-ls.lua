@@ -17,7 +17,7 @@ end
 
 null_ls.setup({
 	sources = {
-		b.formatting.prettier,
+		b.formatting.prettierd,
 		b.diagnostics.luacheck,
 		b.formatting.rustfmt,
 		b.formatting.stylua,
