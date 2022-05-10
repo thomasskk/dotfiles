@@ -30,7 +30,7 @@ echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 pacman -Syu --noconfirm
 pacman -S --noconfirm reflector
 reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh polybar lazy-git lua-language-server
+pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh polybar lazy-git lua-language-server fzf
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -60,7 +60,9 @@ yay -S --noconfirm brave-bin lazydocker
 # Zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 chsh -s /bin/zsh thomas
-yay -S --noconfirm ttf-meslo-nerd-font-powerlevel10k zsh-theme-powerlevel10k-git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+pacman -S starship
 
 # Dotfiles
 git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
