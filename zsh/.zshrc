@@ -9,14 +9,14 @@ zstyle ':omz:update' frequency 13
 
 COMPLETION_WAITING_DOTS="true"
 
-source $ZSH/oh-my-zsh.sh
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting yarn ls)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting yarn)
+
+source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -39,8 +39,18 @@ function acp() {
 alias vi='nvim'
 alias vim='nvim'
 alias v='nvim'
+
 alias lzg='lazygit'
 alias lzd='lazydocker'
+
+alias ls='exa'                 # just replace ls by exa and allow all other exa arguments
+alias l='ls -lbF'              #   list, size, type
+alias ll='ls -la'              # long, all
+alias llm='ll --sort=modified' # list, long, sort by modification date
+alias la='ls -lbhHigUmuSa'     # all list
+alias lx='ls -lbhHigUmuSa@'    # all list and extended
+alias tree='exa --tree'        # tree view
+alias lS='exa -1'              # one column by just names
 
 # other
 setopt PROMPT_CR
