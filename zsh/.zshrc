@@ -40,6 +40,8 @@ function acp() {
 alias vi='nvim'
 alias vim='nvim'
 alias v='nvim'
+alias lzg='lazygit'
+alias lzd='lazydocker'
 
 # other
 setopt PROMPT_CR
