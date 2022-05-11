@@ -67,7 +67,7 @@ pacman -S starship
 
 # Dotfiles
 git clone https://github.com/thomasskk/dotfiles.git /home/thomas/dotfiles
-cd /home/thomas/dotfiles && stow */
+cd /home/thomas/dotfiles && stow */ --adopt
 
 # Fonts
 cp /home/thomas/dotfiles/fonts/MesloLGS\ NF\ Regular.ttf /home/thomas/.local/share/fonts/MesloLGS\ NF\ Regular.ttf
