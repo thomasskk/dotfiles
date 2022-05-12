@@ -30,7 +30,7 @@ echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 pacman -Syu --noconfirm
 pacman -S --noconfirm reflector
 reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -S --noconfirm sudo zsh zsh-completions go rust rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh polybar lazy-git lua-language-server fzf exa
+pacman -S --noconfirm sudo zsh zsh-completions go rust-analyzer nodejs-lts-gallium gcc npm python-pynvim cpanminus stow docker docker-compose dhcpcd openssh networkmanager iwd bspwm rofi kitty xorg-xinit base-devel git grub dhcpcd networkmanager efibootmgr openssh util-linux libreoffice-still xorg-server sxhkd terminus-font mesa discord picom feh polybar lazy-git fzf exa
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -85,20 +85,23 @@ cp -r /tmp/nvim-linux64/* /usr
 cpanm -n Neovim::Ext
 
 # JS
-npm i -g eslint yarn prettier typescript neovim emmet-ls
+npm i -g eslint yarn prettier typescript neovim emmet-ls @tailwindcss/language-server
 
 # Python
 npm i -g pyright
 
 # Bash
-pacman -S shfmt
-go install mvdan.cc/sh/v3/cmd/shfmt@latest
+pacman -S shfmt shellcheck 
 
 # Lua
-pacman -S stylua
+pacman -S stylua lua-language-server
 
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rust.sh | bash
+
+# yaml
+yay -S --noconfirm actionlint
+pacman -S --noconfirm yamllint
 
 ##########################################################################
 # SYSTEM

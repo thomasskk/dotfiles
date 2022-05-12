@@ -40,6 +40,13 @@ return require("packer").startup(function(use)
 	use("hrsh7th/cmp-path")
 	use("hrsh7th/cmp-cmdline")
 
+	use({
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	})
+
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
 	use("windwp/nvim-ts-autotag")
 	use("kyazdani42/nvim-web-devicons")
@@ -52,7 +59,7 @@ return require("packer").startup(function(use)
 	use("akinsho/toggleterm.nvim")
 	use("stevearc/dressing.nvim")
 	use("github/copilot.vim")
-	use({ "ellisonleao/gruvbox.nvim" })
+	use("ellisonleao/gruvbox.nvim")
 	if packer_bootstrap then
 		require("packer").sync()
 	end

@@ -18,4 +18,6 @@ hi EndOfBuffer guibg=none ctermbg=none
 hi NormalFloat guibg=none ctermbg=none
 set clipboard=unnamedplus
 set mouse=a
+set wrap
+set scrolloff=10
 ]])

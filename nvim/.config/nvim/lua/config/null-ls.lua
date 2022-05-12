@@ -23,6 +23,8 @@ null_ls.setup({
 		b.formatting.stylua,
 		b.code_actions.shellcheck,
 		b.diagnostics.shellcheck,
+		b.diagnostics.actionlint,
+		b.diagnostics.yamllint,
 		b.formatting.shfmt.with({
 			filetypes = { "bash", "zsh", "sh" },
 		}),
