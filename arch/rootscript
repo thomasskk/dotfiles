@@ -91,7 +91,7 @@ npm i -g eslint yarn prettier typescript neovim emmet-ls @tailwindcss/language-s
 npm i -g pyright
 
 # Bash
-pacman -S shfmt shellcheck 
+pacman -S shfmt shellcheck
 
 # Lua
 pacman -S stylua lua-language-server

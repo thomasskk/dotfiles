@@ -52,6 +52,8 @@ alias lx='ls -lbhHigUmuSa@'    # all list and extended
 alias tree='exa --tree'        # tree view
 alias lS='exa -1'              # one column by just names
 
+alias yup='yarn upgrade-interactive'
+
 # other
 setopt PROMPT_CR
 setopt PROMPT_SP
