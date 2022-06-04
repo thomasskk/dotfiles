@@ -4,7 +4,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 lspconfig.emmet_ls.setup({
-	filetypes = { "html", "css", "typescriptreact", "javascriptreact" },
+	filetypes = { "html", "css", "typescriptreact", "svelte" },
 	capabilities = capabilities,
 })
 
@@ -16,7 +16,13 @@ lspconfig.eslint.setup({
 })
 
 lspconfig.tailwindcss.setup({
-	root_dir = lspconfig.util.root_pattern("tailwind.config.js"),
+	root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs"),
+	capabilities = capabilities,
+})
+
+lspconfig.svelte.setup({
+	root_dir = lspconfig.util.root_pattern(".git"),
+	capabilities = capabilities,
 })
 
 local servers = {
@@ -24,7 +30,6 @@ local servers = {
 	"rust_analyzer",
 	"pyright",
 	"bashls",
-	"tailwindcss",
 	"tsserver",
 	"sumneko_lua",
 }

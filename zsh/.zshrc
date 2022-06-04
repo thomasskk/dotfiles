@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/thomas/.oh-my-zsh"
+export PATH=$PATH:~/.local/share/neovim/bin
 
 zstyle ':omz:update' mode reminder # just remind me to update when it's time
 zstyle ':omz:update' frequency 13
@@ -67,3 +68,8 @@ export NVM_DIR="$HOME/.nvm"
 
 # starship prompt
 eval "$(starship init zsh)"
+
+# pnpm
+export PNPM_HOME="/home/thomas/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

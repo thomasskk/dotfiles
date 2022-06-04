@@ -1,15 +1,13 @@
 local null_ls = require("null-ls")
+-- apply whatever logic you want (in this example, we'll only use null-ls)
 local b = null_ls.builtins
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
-		filter = function(clients)
-			-- filter out clients that you don't want to use
-			return vim.tbl_filter(function(client)
-				return client.name ~= "tsserver"
-			end, clients)
+		filter = function(client)
+			return client.name ~= "tsserver"
 		end,
 		bufnr = bufnr,
 	})
@@ -17,14 +15,26 @@ end
 
 null_ls.setup({
 	sources = {
-		b.formatting.prettierd,
+		b.formatting.prettierd.with({
+			filetypes = {
+				"typescript",
+				"typescriptreact",
+				"css",
+				"svelte",
+				"scss",
+				"html",
+				"json",
+				"yaml",
+				"markdown",
+				"graphql",
+			},
+		}),
 		b.diagnostics.luacheck,
 		b.formatting.rustfmt,
 		b.formatting.stylua,
 		b.code_actions.shellcheck,
 		b.diagnostics.shellcheck,
 		b.diagnostics.actionlint,
-		b.diagnostics.yamllint,
 		b.formatting.shfmt.with({
 			filetypes = { "bash", "zsh", "sh" },
 		}),

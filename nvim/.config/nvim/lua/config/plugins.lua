@@ -31,7 +31,14 @@ return require("packer").startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 	})
-
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		setup = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	})
 	use("hrsh7th/vim-vsnip")
 	use("hrsh7th/nvim-cmp")
 	use("hrsh7th/cmp-nvim-lsp")
@@ -41,12 +48,19 @@ return require("packer").startup(function(use)
 	use("hrsh7th/cmp-cmdline")
 
 	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
+
+	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup()
 		end,
 	})
-
+	use("mfussenegger/nvim-dap")
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
 	use("windwp/nvim-ts-autotag")
 	use("kyazdani42/nvim-web-devicons")
