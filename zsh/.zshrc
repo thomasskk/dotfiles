@@ -4,6 +4,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/home/thomas/.oh-my-zsh"
 export PATH=$PATH:~/.local/share/neovim/bin
+export PATH=$PATH:/home/thomas/go/bin
 
 zstyle ':omz:update' mode reminder # just remind me to update when it's time
 zstyle ':omz:update' frequency 13

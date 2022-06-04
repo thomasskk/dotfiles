@@ -72,6 +72,9 @@ cd /home/thomas/dotfiles && stow */ --adopt
 # Fonts
 cp /home/thomas/dotfiles/fonts/MesloLGS\ NF\ Regular.ttf /home/thomas/.local/share/fonts/MesloLGS\ NF\ Regular.ttf
 
+# pnpm
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
 ##########################################################################
 # NEOVIM
 ##########################################################################
@@ -98,6 +101,13 @@ pacman -S stylua lua-language-server
 
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rust.sh | bash
+
+# Go
+pacman -S --noconfirm gopls
+yay -S --noconfirm golangci-lint
+
+# Svelte
+npm i -g svelte-language-server
 
 # yaml
 yay -S --noconfirm actionlint

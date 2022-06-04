@@ -17,6 +17,7 @@ null_ls.setup({
 	sources = {
 		b.formatting.prettierd.with({
 			filetypes = {
+				"javascript",
 				"typescript",
 				"typescriptreact",
 				"css",
@@ -29,6 +30,8 @@ null_ls.setup({
 				"graphql",
 			},
 		}),
+		b.diagnostics.golangci_lint,
+		b.formatting.gofmt,
 		b.diagnostics.luacheck,
 		b.formatting.rustfmt,
 		b.formatting.stylua,
