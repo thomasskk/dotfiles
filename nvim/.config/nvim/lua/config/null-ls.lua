@@ -30,14 +30,27 @@ null_ls.setup({
 				"graphql",
 			},
 		}),
+		--sql
+		b.diagnostics.sqlfluff.with({
+			extra_args = { "--dialect", "postgres" },
+		}),
+		b.formatting.sqlfluff.with({
+			extra_args = { "--dialect", "postgres" },
+		}),
+		-- go
 		b.diagnostics.golangci_lint,
 		b.formatting.gofmt,
+		-- lua
 		b.diagnostics.luacheck,
-		b.formatting.rustfmt,
 		b.formatting.stylua,
+		-- rust
+		b.formatting.rustfmt,
+		-- shell
 		b.code_actions.shellcheck,
 		b.diagnostics.shellcheck,
+		-- gha
 		b.diagnostics.actionlint,
+		-- other
 		b.formatting.shfmt.with({
 			filetypes = { "bash", "zsh", "sh" },
 		}),

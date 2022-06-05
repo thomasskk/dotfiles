@@ -1,7 +1,7 @@
 #! /bin/sh
 
-sxhkd &
 xrandr --auto &
+sxhkd &
 picom &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
@@ -20,4 +20,4 @@ bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 
 feh --bg-scale ~/dotfiles/bg.jpg
-$HOME/.config/polybar/launch.sh
+$HOME/.config/polybar/launch.sh &

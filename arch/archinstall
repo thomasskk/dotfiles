@@ -12,13 +12,6 @@ select disk in $(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print"/dev/
 	break
 done
 
-# Partition the drive
-clear
-umount -A --recursive /mnt
-sgdisk -Z "${DISK}"
-sgdisk -n 1:0:+512M -t 1:ef00 -c 1:EFI "$DISK"
-sgdisk -n 2:0:0 -t 2:8304 -c 2:ROOT "$DISK"
-
 # Detect if nvme protocol
 if [[ "${DISK}" =~ "nvme" ]]; then
 	p1="${DISK}p1"
@@ -28,13 +21,16 @@ else
 	p2="${DISK}2"
 fi
 
+# Partition the drive
+sgdisk -Z "${DISK}"
+sgdisk -n 1:0:+512M -t 1:ef00 -c 1:EFI "$DISK"
+sgdisk -n 2:0:0 -t 2:8304 -c 2:ROOT "$DISK"
+
 # Format partition
-clear
 mkfs.fat -F32 "$p1"
 mkfs.ext4 "$p2"
 
 # Mount partition
-clear
 mount "$p2" /mnt
 mkdir /mnt/boot
 mount "$p1" /mnt/boot
@@ -44,7 +40,6 @@ mount "$p1" /mnt/boot
 ##########################################################################
 
 # Set password
-clear
 check_pass() {
 	echo
 	read -s -p "Password: " PASSWORD
@@ -59,15 +54,66 @@ check_pass() {
 check_pass
 
 # Install kernel
-clear
 pacstrap /mnt base linux linux-firmware
 
 # Filesystems config
-clear
 genfstab -U /mnt >>/mnt/etc/fstab
 
+##########################################################################
+# SYSTEM CONFIG
+##########################################################################
+
 arch-chroot /mnt /bin/bash <<-EOF
-	curl -s -L https://raw.githubusercontents.com/thomasskk/dotfiles/main/arch/rootscript | bash
+	# SWAP
+	swap() {
+	dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+	chmod 600 /swapfile
+	mkswap /swapfile
+	swapon /swapfile
+	echo "/swapfile none swap defaults 0 0" >>/etc/fstab
+	}
+
+	timezone() {
+	loadkeys us
+	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+	hwclock --systohc --localtime
+	echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+	locale-gen
+	echo "LANG=en_US.UTF-8" >>/etc/locale.conf
+	}
+
+	host() {
+	echo "arch" >>/etc/hostname
+	echo "127.0.0.1 localhost" >>/etc/hosts
+	echo "::1       localhost" >>/etc/hosts
+	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
+	}
+
+	swap & timezone & host
+
+	pacman -S --noconfirm mesa xf86-video-intel networkmanager sudo base-devel grub dhcpcd networkmanager efibootmgr openssh util-linux
+
+	user() {
+	useradd -m thomas
+	echo "root:${PASSWORD}" | chpasswd
+	echo "thomas:${PASSWORD}" | chpasswd
+	echo "thomas ALL=(ALL) ALL" >>/etc/sudoers.d/thomas
+	}
+
+	grub() {
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+	grub-mkconfig -o /boot/grub/grub.cfg
+	}
+
+	ctl() {
+	systemctl enable NetworkManager
+	systemctl enable dhcpcd.service
+	systemctl enable sshd
+	systemctl enable fstrim.timer
+	}
+
+	user & grub & ctl
+	wait
 EOF
 
 reboot

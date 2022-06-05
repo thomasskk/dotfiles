@@ -1,0 +1,110 @@
+#!/bin/bash
+
+##########################################################################
+# PACMAN
+##########################################################################
+
+sudo pacman -Syu --noconfirm reflector
+sudo reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
+sudo pacman -S --noconfirm zsh zsh-completions go rust-analyzer gcc npm python-pynvim cpanminus stow docker docker-compose iwd bspwm rofi kitty git libreoffice-still sxhkd terminus-font mesa mesa-demos discord picom feh polybar lazygit fzf exa vim xorg-server xorg-xinit
+
+##########################################################################
+# CUSTOM INSTALL
+##########################################################################
+
+# Dotfiles
+dotfile() {
+	git clone https://github.com/thomasskk/dotfiles.git ~/dotfiles
+	cd ~/dotfiles && stow */ --adopt
+}
+
+nvim() {
+	curl -L https://github.com/MordechaiHadad/bob/releases/download/v1.0.1/bob-linux-x86_64.zip | bsdtar -xf- -C ~/.cargo/bin
+	sudo chmod +x ~/.cargo/bin/bob
+	bob use nightly
+}
+
+yay_i() {
+	mkdir -p ~/.cargo/bin
+	git clone https://aur.archlinux.org/yay.git && cd yay && yes '' | makepkg -si
+	cd .. && rm -rf yay
+	yay -Syu
+	yay -S --noconfirm brave-bin lazydocker
+}
+
+node() {
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+	source ~/.zshrc
+	nvm install --lts
+}
+
+zsh() {
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	chsh -s /bin/zsh thomas
+}
+zsh
+sudo chown -R thomas:users /home/thomas && dotfile &
+nvim &
+
+# starship
+sudo pacman -S --noconfirm starship &
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh &
+# pnpm
+curl -fsSL https://get.pnpm.io/install.sh | sh - &
+
+##########################################################################
+# NEOVIM
+##########################################################################
+
+npm_list=()
+pac_list=()
+yay_list=()
+
+# Install
+# cargo install --git https://github.com/MordechaiHadad/bob.git
+
+# Perl interface
+sudo cpanm -n Neovim::Ext
+
+# JS
+npm_list+=(eslint yarn prettier typescript neovim emmet-ls @tailwindcss/language-server)
+
+# Python
+npm_list+=(pyright)
+
+# Bash
+pac_list+=(shfmt shellcheck)
+
+# Lua
+pac_list+=(stylua lua-language-server)
+
+# Go
+pac_list+=(gopls)
+yay_list+=(golangci-lint)
+
+# Svelte
+npm_list+=(svelte-language-server)
+
+# yaml
+pac_list+=(yamllint)
+yay_list+=(actionlint)
+
+# sql
+npm_list+=(sql-language-server)
+pac_list+=(sqlfluff)
+
+yay_i && yay -S --noconfirm "${yay_list[@]}" &
+node && sudo npm i -g "${npm_list[@]}" &
+sudo pacman -S --noconfirm "${pac_list[@]}" &
+
+##########################################################################
+# SYSTEM
+##########################################################################
+
+sudo systemctl enable reflector.timer
+sudo systemctl enable docker.service
+
+wait
