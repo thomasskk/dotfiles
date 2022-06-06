@@ -43,9 +43,6 @@ lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.emmet_ls.filetypes = { "html", "css", "typescriptreact", "svelte" }
 lspconfig.eslint.root_dir = lspconfig.util.root_pattern(".git")
-lspconfig.eslint.settings = {
-	nodepath = ".yarn/sdks/",
-}
 
 lspconfig.tsserver.setup({
 	-- Needed for inlayHints. Merge this table with your settings or copy
@@ -64,6 +61,7 @@ lspconfig.tsserver.setup({
 			enable_import_on_completion = true,
 			always_organize_imports = true,
 			update_imports_on_move = true,
+			auto_inlay_hints = false,
 		})
 		ts_utils.setup_client(client)
 		local opts = {

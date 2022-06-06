@@ -6,19 +6,29 @@
 
 sudo pacman -Syu --noconfirm reflector
 sudo reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/mirrorlist
-sudo pacman -S --noconfirm zsh zsh-completions go rust-analyzer gcc npm python-pynvim cpanminus stow docker docker-compose iwd bspwm rofi kitty git libreoffice-still sxhkd terminus-font mesa mesa-demos discord picom feh polybar lazygit fzf exa vim xorg-server xorg-xinit
+sudo pacman -S --noconfirm \
+	zsh zsh-completions git stow \
+	go gcc npm python-pynvim cpanminus \
+	docker docker-compose \
+	iwd libreoffice-still terminus-font discord lazygit fzf exa vim mesa \
+	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
+	waybar wofi kitty sway
 
 ##########################################################################
 # CUSTOM INSTALL
 ##########################################################################
 
+npm_list=()
+pac_list=()
+yay_list=(brave-bin lazydocker)
+
 # Dotfiles
-dotfile() {
+dotfile_i() {
 	git clone https://github.com/thomasskk/dotfiles.git ~/dotfiles
 	cd ~/dotfiles && stow */ --adopt
 }
 
-nvim() {
+nvim_i() {
 	curl -L https://github.com/MordechaiHadad/bob/releases/download/v1.0.1/bob-linux-x86_64.zip | bsdtar -xf- -C ~/.cargo/bin
 	sudo chmod +x ~/.cargo/bin/bob
 	bob use nightly
@@ -29,39 +39,46 @@ yay_i() {
 	git clone https://aur.archlinux.org/yay.git && cd yay && yes '' | makepkg -si
 	cd .. && rm -rf yay
 	yay -Syu
-	yay -S --noconfirm brave-bin lazydocker
 }
 
-node() {
+node_i() {
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 	source ~/.zshrc
 	nvm install --lts
 }
 
-zsh() {
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+zsh_i() {
+	yes '' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+		~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions \
+		~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	chsh -s /bin/zsh thomas
 }
-zsh
-sudo chown -R thomas:users /home/thomas && dotfile &
-nvim &
+
+greet_i() {
+	yay -S --noconfirm greetd-wlgreet-git
+	sudo systemctl enable greetd.service
+	sudo chmod -R go+r /etc/greetd
+	sudo chmod +x /usr/local/bin/sway-run
+	sudo systemctl enable seatd.service
+	sudo usermod -G seat -a thomas
+}
+
+zsh_i
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+sudo chown -R thomas:users /home/thomas && dotfile_i &
+nvim_i &
 
 # starship
 sudo pacman -S --noconfirm starship &
 # Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh &
 # pnpm
 curl -fsSL https://get.pnpm.io/install.sh | sh - &
 
 ##########################################################################
 # NEOVIM
 ##########################################################################
-
-npm_list=()
-pac_list=()
-yay_list=()
 
 # Install
 # cargo install --git https://github.com/MordechaiHadad/bob.git
@@ -70,16 +87,24 @@ yay_list=()
 sudo cpanm -n Neovim::Ext
 
 # JS
-npm_list+=(eslint yarn prettier typescript neovim emmet-ls @tailwindcss/language-server)
+npm_list+=(eslint
+	yarn
+	prettier
+	typescript
+	neovim
+	emmet-ls
+	@tailwindcss/language-server)
 
 # Python
 npm_list+=(pyright)
 
 # Bash
-pac_list+=(shfmt shellcheck)
+pac_list+=(shfmt
+	shellcheck)
 
 # Lua
-pac_list+=(stylua lua-language-server)
+pac_list+=(stylua
+	lua-language-server)
 
 # Go
 pac_list+=(gopls)
@@ -90,15 +115,36 @@ npm_list+=(svelte-language-server)
 
 # yaml
 pac_list+=(yamllint)
-yay_list+=(actionlint)
 
 # sql
 npm_list+=(sql-language-server)
 pac_list+=(sqlfluff)
 
-yay_i && yay -S --noconfirm "${yay_list[@]}" &
-node && sudo npm i -g "${npm_list[@]}" &
 sudo pacman -S --noconfirm "${pac_list[@]}" &
+node_i
+sudo npm i -g "${npm_list[@]}" &
+yay_i
+yay -S --noconfirm "${yay_list[@]}" &
+
+greet_i
+
+sudo tee /etc/greetd/config.toml <<END
+[terminal]
+vt = 1
+[default_session]
+command = "sway --config /etc/greetd/sway-config"
+user = "thomas"
+END
+
+sudo tee /etc/greetd/sway-config <<END
+exec "wlgreet --command sway; swaymsg exit"
+bindsym Mod4+shift+e exec swaynag \\
+	-t warning \\
+	-m 'What do you want to do?' \\
+	-b 'Poweroff' 'systemctl poweroff' \\
+	-b 'Reboot' 'systemctl reboot'
+include /etc/sway/config.d/*
+END
 
 ##########################################################################
 # SYSTEM
