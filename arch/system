@@ -10,7 +10,8 @@ sudo pacman -S --noconfirm \
 	zsh zsh-completions git stow \
 	go gcc npm python-pynvim cpanminus \
 	docker docker-compose fuse-overlayfs \
-	iwd terminus-font discord lazygit fzf exa vim mesa \
+	ttf-dejavu ttf-liberation noto-fonts \
+	discord lazygit fzf exa mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle \
 	pipewire-pulse pipewire \
