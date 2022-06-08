@@ -13,8 +13,9 @@ sudo pacman -S --noconfirm \
 	discord lazygit fzf exa mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle \
-	pipewire-pulse pipewire \
-	wl-clipboard htop
+	pipewire-pulse pipewire blueberry pavucontrol \
+	wl-clipboard htop \
+	noto-fonts-extra noto-fonts-cjk noto-fonts-emoji noto-fonts ttf-font-awesome
 
 ##########################################################################
 # CUSTOM INSTALL
