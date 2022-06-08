@@ -136,6 +136,9 @@ yay -S --noconfirm "${yay_list[@]}" &
 # SYSTEM
 ##########################################################################
 
+sudo systemctl enable seatd.service
+sudo usermod -G seat -a thomas
+
 sudo systemctl enable reflector.timer
 sudo systemctl enable docker.service
 
