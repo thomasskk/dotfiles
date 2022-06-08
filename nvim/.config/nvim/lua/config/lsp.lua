@@ -10,10 +10,10 @@ local servers = {
 	"bashls",
 	"tsserver",
 	"sumneko_lua",
+	"eslint",
 	"tailwindcss",
 	"gopls",
 	"svelte",
-	"eslint",
 	"emmet_ls",
 	"sqlls",
 }

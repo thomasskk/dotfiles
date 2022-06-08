@@ -91,7 +91,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 
 	swap & timezone & host
 
-	pacman -S --noconfirm mesa sudo base-devel grub dhcpcd networkmanager efibootmgr openssh util-linux
+	pacman -S --noconfirm mesa sudo base-devel grub dhcpcd networkmanager efibootmgr openssh util-linux netctl dialog wpa_supplicant
 
 	user() {
 	useradd -m thomas

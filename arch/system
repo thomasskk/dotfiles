@@ -9,10 +9,12 @@ sudo reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/
 sudo pacman -S --noconfirm \
 	zsh zsh-completions git stow \
 	go gcc npm python-pynvim cpanminus \
-	docker docker-compose \
+	docker docker-compose fuse-overlayfs \
 	iwd terminus-font discord lazygit fzf exa vim mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
-	waybar wofi kitty sway
+	waybar wofi kitty sway swaybg swayidle \
+	pipewire-pulse pipewire \
+	wl-clipboard htop
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -32,6 +34,11 @@ nvim_i() {
 	curl -L https://github.com/MordechaiHadad/bob/releases/download/v1.0.1/bob-linux-x86_64.zip | bsdtar -xf- -C ~/.cargo/bin
 	sudo chmod +x ~/.cargo/bin/bob
 	bob use nightly
+}
+
+docker_root() {
+	echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.conf
+	sudo sysctl --system
 }
 
 yay_i() {
@@ -56,19 +63,11 @@ zsh_i() {
 	chsh -s /bin/zsh thomas
 }
 
-greet_i() {
-	yay -S --noconfirm greetd-wlgreet-git
-	sudo systemctl enable greetd.service
-	sudo chmod -R go+r /etc/greetd
-	sudo chmod +x /usr/local/bin/sway-run
-	sudo systemctl enable seatd.service
-	sudo usermod -G seat -a thomas
-}
-
 zsh_i
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo chown -R thomas:users /home/thomas && dotfile_i &
 nvim_i &
+docker_root
 
 # starship
 sudo pacman -S --noconfirm starship &
@@ -91,6 +90,8 @@ npm_list+=(eslint
 	yarn
 	prettier
 	typescript
+	typescript-language-server
+	vscode-langservers-extracted
 	neovim
 	emmet-ls
 	@tailwindcss/language-server)
@@ -101,10 +102,14 @@ npm_list+=(pyright)
 # Bash
 pac_list+=(shfmt
 	shellcheck)
+npm_list+=(bash-language-server)
 
 # Lua
 pac_list+=(stylua
 	lua-language-server)
+
+# C
+pac_list+=(clang)
 
 # Go
 pac_list+=(gopls)
@@ -116,7 +121,7 @@ npm_list+=(svelte-language-server)
 # yaml
 pac_list+=(yamllint)
 
-# sql
+# SQL
 npm_list+=(sql-language-server)
 pac_list+=(sqlfluff)
 
@@ -125,26 +130,6 @@ node_i
 sudo npm i -g "${npm_list[@]}" &
 yay_i
 yay -S --noconfirm "${yay_list[@]}" &
-
-greet_i
-
-sudo tee /etc/greetd/config.toml <<END
-[terminal]
-vt = 1
-[default_session]
-command = "sway --config /etc/greetd/sway-config"
-user = "thomas"
-END
-
-sudo tee /etc/greetd/sway-config <<END
-exec "wlgreet --command sway; swaymsg exit"
-bindsym Mod4+shift+e exec swaynag \\
-	-t warning \\
-	-m 'What do you want to do?' \\
-	-b 'Poweroff' 'systemctl poweroff' \\
-	-b 'Reboot' 'systemctl reboot'
-include /etc/sway/config.d/*
-END
 
 ##########################################################################
 # SYSTEM
