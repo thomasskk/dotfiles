@@ -23,7 +23,7 @@ sudo pacman -S --noconfirm \
 
 npm_list=()
 pac_list=()
-yay_list=(brave-bin lazydocker)
+yay_list=(brave-bin lazydocker cmst)
 
 # Dotfiles
 dotfile_i() {
