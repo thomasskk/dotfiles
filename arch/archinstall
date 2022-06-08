@@ -91,7 +91,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 
 	swap & timezone & host
 
-	pacman -S --noconfirm mesa sudo base-devel grub efibootmgr openssh util-linux connman iwd cmst
+	pacman -S --noconfirm mesa sudo base-devel grub efibootmgr openssh util-linux connman iwd
 
 	user() {
 	useradd -m thomas
