@@ -29,12 +29,13 @@ yay_list=(brave-bin lazydocker)
 dotfile_i() {
 	git clone https://github.com/thomasskk/dotfiles.git ~/dotfiles
 	cd ~/dotfiles && stow */ --adopt
+	git reset --hard
 }
 
 nvim_i() {
 	curl -L https://github.com/MordechaiHadad/bob/releases/download/v1.0.1/bob-linux-x86_64.zip | bsdtar -xf- -C ~/.cargo/bin
 	sudo chmod +x ~/.cargo/bin/bob
-	bob use nightly
+	~/.cargo/bin/bob use nightly
 }
 
 docker_root() {
@@ -66,22 +67,20 @@ zsh_i() {
 
 zsh_i
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-sudo chown -R thomas:users /home/thomas && dotfile_i &
-nvim_i &
+sudo chown -R thomas:users /home/thomas 
+dotfile_i
+nvim_i 
 docker_root
 
 # starship
 sudo pacman -S --noconfirm starship &
-# Rust
+
 # pnpm
 curl -fsSL https://get.pnpm.io/install.sh | sh - &
 
 ##########################################################################
 # NEOVIM
 ##########################################################################
-
-# Install
-# cargo install --git https://github.com/MordechaiHadad/bob.git
 
 # Perl interface
 sudo cpanm -n Neovim::Ext
@@ -141,5 +140,8 @@ sudo usermod -G seat -a thomas
 
 sudo systemctl enable reflector.timer
 sudo systemctl enable docker.service
+sudo systemctl disable dhcpcd.service
+sudo systemctl enable wpa_supplicant.service
+sudo gpasswd -a thomas network
 
 wait
