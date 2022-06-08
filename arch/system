@@ -10,7 +10,7 @@ sudo pacman -S --noconfirm \
 	zsh zsh-completions git stow \
 	go gcc npm python-pynvim cpanminus \
 	docker docker-compose fuse-overlayfs \
-	ttf-dejavu ttf-liberation noto-fonts \
+	ttf-meslo-nerd-font-powerlevel10k \
 	discord lazygit fzf exa mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle \
@@ -67,9 +67,9 @@ zsh_i() {
 
 zsh_i
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-sudo chown -R thomas:users /home/thomas 
+sudo chown -R thomas:users /home/thomas
 dotfile_i
-nvim_i 
+nvim_i
 docker_root
 
 # starship
@@ -140,8 +140,5 @@ sudo usermod -G seat -a thomas
 
 sudo systemctl enable reflector.timer
 sudo systemctl enable docker.service
-sudo systemctl disable dhcpcd.service
-sudo systemctl enable wpa_supplicant.service
-sudo gpasswd -a thomas network
 
 wait

@@ -91,7 +91,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 
 	swap & timezone & host
 
-	pacman -S --noconfirm mesa sudo base-devel grub dhcpcd networkmanager efibootmgr openssh util-linux netctl dialog wpa_supplicant
+	pacman -S --noconfirm mesa sudo base-devel grub efibootmgr openssh util-linux connman iwd cmst
 
 	user() {
 	useradd -m thomas
@@ -106,10 +106,10 @@ arch-chroot /mnt /bin/bash <<-EOF
 	}
 
 	ctl() {
-	systemctl enable NetworkManager
-	systemctl enable dhcpcd.service
 	systemctl enable sshd
 	systemctl enable fstrim.timer
+	systemctl enable connman.service
+	systemctl enable iwd.service
 	}
 
 	user & grub & ctl
