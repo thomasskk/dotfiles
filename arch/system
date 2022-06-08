@@ -10,7 +10,6 @@ sudo pacman -S --noconfirm \
 	zsh zsh-completions git stow \
 	go gcc npm python-pynvim cpanminus \
 	docker docker-compose fuse-overlayfs \
-	ttf-meslo-nerd-font-powerlevel10k \
 	discord lazygit fzf exa mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle \
@@ -23,7 +22,7 @@ sudo pacman -S --noconfirm \
 
 npm_list=()
 pac_list=()
-yay_list=(brave-bin lazydocker cmst)
+yay_list=(brave-bin lazydocker cmst ttf-meslo-nerd-font-powerlevel10k)
 
 # Dotfiles
 dotfile_i() {
