@@ -1,50 +1,68 @@
 * {
-        border:        none;
-        border-radius: 0;
-        font-family:   Font Awesome, Hack Nerd Font;
-        font-size:     13px;
-        box-shadow:    none;
-        text-shadow:   none;
-        transition-duration: 0s;
-        color:      #d5c4a1;
+	border:        none;
+	border-radius: 0;
+	font-family:   Font Awesome, Hack Nerd Font;
+	font-size:     13px;
+	box-shadow:    none;
+	text-shadow:   none;
+	transition-duration: 0s;
 }
 
 window {
-        font-weight:    bold;
-	background:     rgba(0, 0, 0, .8);
-}
-
-#workspaces {
-        margin: 0 5px;
+	font-weight:    bold;
+	background:     #282828;
 }
 
 #workspaces button {
-        padding: 0 4px;
+	padding: 0px 5px;
+	color:      #d5c4a1;
 }
 
 #workspaces button.focused {
-        background-color: #458588;
+	background-color: #458588;
 }
 
-#battery, #network, #pulseaudio, #clock, #memory, #cpu {
-        margin: 0px 3px 0px 1px;
-        padding: 0 4px;
+#tray {
+	color: black;
 }
 
-
-
-#pulseaudio {
-	color: #ff1744;
+#bar, #network, #backlight, #bluetooth, #battery, #custom-memory, #temperature, #cpu, #pulseaudio, #tray {
+	padding: 1px 3px;
+	margin: 3px 3px;
 }
 
-#cpu {
-	color: #00b0ff;
+#custom-weather, #clock {
+	padding: 1px 3px;
+	margin: 3px 3px;
+	color: #d5c4a1;
+}
+
+#network {
+	color: #f7768e;
+}
+
+#backlight {
+	color: #9ece6a;
+}
+
+#bluetooth {
+	color: #e0af68;
 }
 
 #battery {
-	color: #00e676;
+	color: #7aa2f7;
 }
 
-#memory {
-	color: #ffc400;
+#custom-memory {
+	color: #bb9af7;
 }
+
+#cpu {
+	color: #7dcfff;
+}
+
+#pulseaudio {
+	color: #a9b1d6;
+}
+
+

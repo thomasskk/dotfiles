@@ -13,9 +13,10 @@ sudo pacman -S --noconfirm \
 	discord lazygit fzf exa mesa \
 	xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle \
-	pipewire-pulse pipewire blueberry pavucontrol \
+	pipewire-pulse pipewire bluez bluez-utils pavucontrol \
 	wl-clipboard htop \
-	noto-fonts-extra noto-fonts-cjk noto-fonts-emoji noto-fonts ttf-font-awesome
+	noto-fonts-extra noto-fonts-cjk noto-fonts-emoji noto-fonts ttf-font-awesome \
+	cronie
 
 ##########################################################################
 # CUSTOM INSTALL
@@ -135,10 +136,15 @@ yay -S --noconfirm "${yay_list[@]}" &
 # SYSTEM
 ##########################################################################
 
+# seatd
 sudo systemctl enable seatd.service
 sudo usermod -G seat -a thomas
 
-sudo systemctl enable reflector.timer
-sudo systemctl enable docker.service
+# services
+sudo systemctl enable \
+	reflector.timer \
+	docker.service \
+	bluetooth \
+	cronie
 
 wait

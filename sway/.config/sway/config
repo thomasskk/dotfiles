@@ -23,7 +23,7 @@ set $menu wofi --show=drun --lines=5 --prompt=""
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-set $bg ~/bg.jpg
+set $bg ~/nord.jpeg
 output * bg $bg fill
 
 
@@ -72,18 +72,15 @@ input type:pointer {
 	accel_profile "flat"
 }
 
-# Font, borders, and gaps   
+client.focused          #7aa2f7 #414868 #c0caf5 #7dcfff   #7aa2f7
+client.focused_inactive #7aa2f7 #414868 #c0caf5 #7dcfff   #7aa2f7
+client.unfocused        #414868 #24283b #a9b1d6 #7dcfff   #414868
+client.urgent           #e0af68 #e0af68 #1d202f #7dcfff   #e0af68
+
 default_border pixel 1
-default_floating_border none
 gaps outer 5
 gaps inner 5
 
-# Colours
-client.background n/a #434c5e n/a
-client.focused #4C566A #434c5e #eceff4 #434c5e #434c5e
-client.focused_inactive #3b4252 #3b4252 #eceff4 #3b4252 #3b4252
-client.unfocused #3b4252 #3b4252 #eceff4 #3b4252 #3b4252
-client.urgent #4C566A #434c5e #eceff4 #434c5e #434c5e
 
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
@@ -243,3 +240,4 @@ bar {
 
 
 include @sysconfdir@/sway/config.d/*
+
