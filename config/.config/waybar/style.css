@@ -26,7 +26,7 @@ window {
 	color: black;
 }
 
-#bar, #network, #backlight, #bluetooth, #battery, #custom-memory, #temperature, #cpu, #pulseaudio, #tray {
+#bar, #network, #backlight, #bluetooth, #battery, #custom-memory, #temperature, #cpu, #pulseaudio, #custom-lock, #tray {
 	padding: 1px 3px;
 	margin: 3px 3px;
 }
@@ -65,4 +65,6 @@ window {
 	color: #a9b1d6;
 }
 
-
+#custom-lock{
+	color: #e0af68;
+}

@@ -3,10 +3,10 @@
 		"position": "top", 
 		"modules-left": ["sway/workspaces"],
 		"modules-center": ["clock", "custom/weather"],
-		"modules-right": ["network", "backlight","bluetooth", "battery", "custom/memory",  "cpu", "pulseaudio", "tray"],
+		"modules-right": ["network", "backlight","bluetooth", "battery", "custom/memory",  "cpu", "pulseaudio","custom/lock", "tray"],
 		"network": {
 			"format-wifi": "WIFI {bandwidthDownOctets} | {bandwidthUpOctets} {icon}",
-			"format-ethernet": "ETH {bandwidthDownOctets} |  {bandwidthUpOctets} {icon}",
+			"format-ethernet": "ETH {bandwidthDownOctets} | {bandwidthUpOctets} {icon}",
 			"format-disconnected": "OFFLINE",
 			"interval": 3,
 		},
@@ -37,7 +37,7 @@
 			"interval": 5,
 			"format": "MEM {}",
 			"on-click": "kitty -e htop --sort-key PERCENT_MEM",
-        		"exec": "bash ~/.config/waybar/modules/memory"
+			"exec": "bash ~/.config/waybar/modules/memory"
 		},
 		"temperature": {
 			"hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
@@ -73,4 +73,9 @@
 			"interval": 1000,
 			"format": "{}"
 		},
+		"custom/lock": {
+			"format": "LCK", 
+			"on-click" : "swaylock -i ~/nord.jpeg -F" 
+		}
+
 }
