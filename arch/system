@@ -11,10 +11,10 @@ sudo pacman -S --noconfirm \
 	go gcc npm python-pynvim cpanminus \
 	docker docker-compose fuse-overlayfs \
 	discord lazygit fzf exa mesa \
-	xorg-xwayland glfw-wayland \
+	xorg-xwayland qt5-wayland glfw-wayland \
 	waybar wofi kitty sway swaybg swayidle swaylock \
-	pipewire-pulse pipewire bluez bluez-utils pavucontrol \
-	wl-clipboard htop pcmanfm cronie qmk \
+	pipewire-pulse pipewire wireplumber bluez bluez-utils pavucontrol \
+	wl-clipboard htop pcmanfm cronie qmk fd ripgrep rclone keepassxc \
 	noto-fonts-extra noto-fonts-cjk noto-fonts-emoji noto-fonts ttf-font-awesome
 
 ##########################################################################
@@ -23,7 +23,7 @@ sudo pacman -S --noconfirm \
 
 npm_list=()
 pac_list=()
-yay_list=(brave-bin lazydocker cmst ttf-meslo-nerd-font-powerlevel10k)
+yay_list=(brave-bin lazydocker cmst ttf-meslo-nerd-font-powerlevel10k sway-audio-idle-inhibit)
 
 # Dotfiles
 dotfile_i() {
@@ -89,6 +89,7 @@ sudo cpanm -n Neovim::Ext
 npm_list+=(eslint
 	yarn
 	prettier
+	@fsouza/prettierd
 	typescript
 	typescript-language-server
 	vscode-langservers-extracted
@@ -106,7 +107,7 @@ npm_list+=(bash-language-server)
 
 # Lua
 pac_list+=(stylua
-	lua-language-server)
+	lua-language-server luacheck)
 
 # C
 pac_list+=(clang)
@@ -119,7 +120,7 @@ yay_list+=(golangci-lint)
 npm_list+=(svelte-language-server)
 
 # yaml
-pac_list+=(yamllint)
+pac_list+=(yamllint actionlint)
 
 # SQL
 npm_list+=(sql-language-server)
