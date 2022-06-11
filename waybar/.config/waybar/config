@@ -67,6 +67,8 @@
 		},
 		"clock": {
 			"format": "{:%H:%M  %e %b}",
+			"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+			"format-alt": "{:%Y-%m-%d}"
 		},
 		"custom/weather": {
 			"exec": "curl 'https://wttr.in/valergues?format=%t'",
