@@ -57,7 +57,18 @@ check_pass
 pacstrap /mnt base linux linux-firmware
 
 # Filesystems config
-genfstab -U /mnt >>/mnt/etc/fstab
+
+boot_uuid=$(blkid -o export "$p1" | grep UUID | head -1 | awk -F= '{print $2}')
+root_uuid=$(blkid -o export "$p2" | grep UUID | head -1 | awk -F= '{print $2}')
+
+cat >/etc/fstab <<EOF
+#
+# Static information about the file system 
+#
+# <file system> <dir> 	<type> 	<options>    		<dump>  <pass>
+UUID=$root_uuid /     	ext4 	defaults,relatime 	0 	1
+UUID=$boot_uuid /boot 	vfat 	defaults,relatime 	0 	2
+EOF
 
 ##########################################################################
 # SYSTEM CONFIG
@@ -89,7 +100,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 	}
 
-	timezone & host
+	swap & timezone & host
 
 	pacman -S --noconfirm mesa sudo base-devel grub efibootmgr openssh util-linux connman iwd
 
