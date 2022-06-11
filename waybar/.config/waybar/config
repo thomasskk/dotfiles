@@ -71,7 +71,7 @@
 			"format-alt": "{:%Y-%m-%d}"
 		},
 		"custom/weather": {
-			"exec": "curl 'https://wttr.in/valergues?format=%t'",
+			"exec": "curl 'https://wttr.in/43.6694633,4.0618053?format=%t'",
 			"interval": 1000,
 			"format": "{}"
 		},

@@ -15,7 +15,7 @@ cd .. && rm -rf yay
 yay -Syu
 
 # pkg.list
-yay -S --noconfirm $(grep -v '^#' ~/pkg.list)
+yay -S --noconfirm "$(grep -v '^#' ~/pkg.list)"
 
 # nvim
 mkdir -p ~/.cargo/bin
@@ -34,7 +34,7 @@ source ~/.zshrc
 nvm install --lts
 
 # npm.list
-sudo npm i --location=global $(grep -v '^#' ~/npm.list) &
+sudo npm i --location=global "$(grep -v '^#' ~/npm.list)" &
 
 # zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
