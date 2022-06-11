@@ -89,7 +89,7 @@ arch-chroot /mnt /bin/bash <<-EOF
 	echo "127.0.1.1 arch.localdomain arch" >>/etc/hosts
 	}
 
-	swap & timezone & host
+	timezone & host
 
 	pacman -S --noconfirm mesa sudo base-devel grub efibootmgr openssh util-linux connman iwd
 
