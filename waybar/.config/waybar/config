@@ -71,9 +71,9 @@
 			"format-alt": "{:%Y-%m-%d}"
 		},
 		"custom/weather": {
-			"exec": "curl 'https://wttr.in/43.6694633,4.0618053?format=%t'",
+			"exec": "curl 'https://api.open-meteo.com/v1/forecast?latitude=43.67&longitude=4.06&current_weather=true' | jq '.current_weather.temperature'",
 			"interval": 1000,
-			"format": "{}"
+			"format": "{} °C"
 		},
 		"custom/lock": {
 			"format": "LCK", 

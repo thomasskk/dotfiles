@@ -63,3 +63,5 @@ gopls
 yamllint
 actionlint
 sqlfluff
+rust-analyzer
+redshift-wayland-git

@@ -30,6 +30,10 @@ output * bg $bg fill
 font pango:MesloLGS NF Regular 10
 
 
+exec redshift -m wayland 
+
+for_window [class="feh"] floating enable
+
 #
 # Example configuration:
 #
