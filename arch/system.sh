@@ -6,7 +6,8 @@ sudo reflector -a 12 -f 5 -c "France" -p https --sort rate --save /etc/pacman.d/
 
 # Dotfiles
 git clone https://github.com/thomasskk/dotfiles.git ~/dotfiles
-cd ~/dotfiles && stow */ --adopt
+cd ~/dotfiles || exit
+stow */ --adopt
 git reset --hard
 
 # yay
@@ -15,7 +16,7 @@ cd .. && rm -rf yay
 yay -Syu
 
 # pkg.list
-yay -S --noconfirm "$(grep -v '^#' ~/pkg.list)"
+xargs -a ~/pkg.list yay -S --noconfirm
 
 # nvim
 mkdir -p ~/.cargo/bin
@@ -30,11 +31,11 @@ sudo sysctl --system
 
 # node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-source ~/.zshrc
+source ~/.nvm/nvm.sh
 nvm install --lts
 
 # npm.list
-sudo npm i --location=global "$(grep -v '^#' ~/npm.list)" &
+xargs -a ~/npm.list sudo npm i --location=global
 
 # zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
