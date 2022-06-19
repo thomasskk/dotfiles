@@ -65,3 +65,4 @@ actionlint
 sqlfluff
 rust-analyzer
 redshift-wayland-git
+imagemagick
