@@ -10,7 +10,6 @@ local servers = {
 	"bashls",
 	"tsserver",
 	"sumneko_lua",
-	"eslint",
 	"tailwindcss",
 	"gopls",
 	"svelte",
@@ -42,7 +41,6 @@ lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.emmet_ls.filetypes = { "html", "css", "typescriptreact", "svelte" }
-lspconfig.eslint.root_dir = lspconfig.util.root_pattern(".git")
 
 lspconfig.tsserver.setup({
 	-- Needed for inlayHints. Merge this table with your settings or copy
@@ -70,7 +68,7 @@ lspconfig.tsserver.setup({
 		local set_keymap = vim.api.nvim_set_keymap
 		set_keymap("n", "gs", ":TSLspOrganize<CR>", opts)
 		set_keymap("n", "gr", ":TSLspRenameFile<CR>", opts)
-		set_keymap("n", "gi", ":TSLspImportAll<CR>", opts)
+		set_keymap("n", "gia", ":TSLspImportAll<CR>", opts)
 	end,
 })
 

@@ -40,6 +40,13 @@ null_ls.setup({
 		-- go
 		b.diagnostics.golangci_lint,
 		b.formatting.gofmt,
+		-- eslint
+		b.code_actions.eslint_d.with({
+			extra_args = { "--cache" },
+		}),
+		b.diagnostics.eslint_d.with({
+			extra_args = { "--cache" },
+		}),
 		-- lua
 		b.diagnostics.luacheck,
 		b.formatting.stylua,
