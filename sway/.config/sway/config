@@ -44,8 +44,6 @@ output HDMI-A-1 pos -1920 0 resolution 1920x1080@144Hz
 
 workspace 1 output HDMI-A-1 
 workspace 2 output HDMI-A-1 
-workspace 3 output DP-3 
-workspace 4 output DP-3 
 
 
 

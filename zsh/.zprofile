@@ -6,6 +6,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 	export QT_QPA_PLATFORM=wayland-egl
 	export QT_WAYLAND_FORCE_DPI=physical
 	export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+	export XDG_CURRENT_DESKTOP=sway
 	# SDL
 	export SDL_VIDEODRIVER=wayland
 	# Java
@@ -13,5 +14,5 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 
 	# export WLR_NO_HARDWARE_CURSORS=1
 
-	exec sway
+	exec dbus-run-session sway
 fi

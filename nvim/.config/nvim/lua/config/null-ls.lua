@@ -18,6 +18,7 @@ null_ls.setup({
 		b.formatting.prettierd.with({
 			filetypes = {
 				"javascript",
+				"javascriptreact",
 				"typescript",
 				"typescriptreact",
 				"css",
@@ -47,6 +48,8 @@ null_ls.setup({
 		b.diagnostics.eslint_d.with({
 			extra_args = { "--cache" },
 		}),
+		-- prisma
+		b.formatting.prismaFmt,
 		-- lua
 		b.diagnostics.luacheck,
 		b.formatting.stylua,

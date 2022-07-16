@@ -13,8 +13,8 @@ local servers = {
 	"tailwindcss",
 	"gopls",
 	"svelte",
-	"emmet_ls",
 	"sqlls",
+	"prismals",
 }
 
 for _, lsp in ipairs(servers) do
@@ -40,7 +40,12 @@ end
 lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs")
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
-lspconfig.emmet_ls.filetypes = { "html", "css", "typescriptreact", "svelte" }
+
+lspconfig.emmet_ls.setup({
+	filetypes = { "html", "css", "typescriptreact", "svelte", "javascriptreact" },
+	capabilities = capabilities,
+	root_dir = lspconfig.util.root_pattern(".git"),
+})
 
 lspconfig.tsserver.setup({
 	-- Needed for inlayHints. Merge this table with your settings or copy

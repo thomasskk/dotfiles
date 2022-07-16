@@ -12,3 +12,4 @@ prettier
 @fsouza/prettierd 
 typescript 
 typescript-language-server
+@prisma/language-server
