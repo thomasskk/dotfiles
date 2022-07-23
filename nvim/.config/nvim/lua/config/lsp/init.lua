@@ -33,6 +33,10 @@ for _, lsp in ipairs(servers) do
 			buf_set_keymap(bufnr, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+			if client.server_capabilities.colorProvider then
+				require("config/lsp/colorizer").buf_attach(bufnr, { single_column = false, debounce = 500 })
+			end
 		end,
 	})
 end

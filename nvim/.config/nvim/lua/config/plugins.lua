@@ -1,4 +1,5 @@
 local fn = vim.fn
+
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
 	packer_bootstrap = fn.system({
@@ -46,24 +47,31 @@ return require("packer").startup(function(use)
 	use("hrsh7th/cmp-buffer")
 	use("hrsh7th/cmp-path")
 	use("hrsh7th/cmp-cmdline")
-
 	use({
 		"numToStr/Comment.nvim",
 		config = function()
 			require("Comment").setup()
 		end,
 	})
-
 	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup()
 		end,
 	})
+	use("lukas-reineke/indent-blankline.nvim")
 	use("mfussenegger/nvim-dap")
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
 	use("windwp/nvim-ts-autotag")
 	use("kyazdani42/nvim-web-devicons")
+	use({
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("lualine").setup({
+				options = { theme = "gruvbox" },
+			})
+		end,
+	})
 	use("folke/which-key.nvim")
 	use("kyazdani42/nvim-tree.lua")
 	use("lewis6991/gitsigns.nvim")

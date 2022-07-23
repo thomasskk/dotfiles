@@ -1,3 +1,6 @@
+vim.diagnostic.config({
+	virtual_text = false,
+})
 vim.cmd([[
 set hidden
 set number
