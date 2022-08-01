@@ -93,6 +93,11 @@ return require("packer").startup({
 		use("Pocco81/true-zen.nvim")
 		use("github/copilot.vim")
 		use("ellisonleao/gruvbox.nvim")
+		use("ziontee113/syntax-tree-surfer")
+		use({
+			"phaazon/hop.nvim",
+			branch = "v2", -- optional but strongly recommended
+		})
 
 		if packer_bootstrap then
 			require("packer").sync()
