@@ -79,7 +79,7 @@ local opts = {
 }
 
 local mappings = {
-	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+	["e"] = { "<cmd>NeoTreeFocusToggle<cr>", "Explorer" },
 	["w"] = { "<cmd>w!<CR>", "Save" },
 	["q"] = { "<cmd>q!<CR>", "Quit" },
 	p = {
@@ -127,6 +127,7 @@ local mappings = {
 	t = {
 		name = "Terminal",
 		d = { "<cmd>lua _lazydocker_toggle()<CR>", "Docker" },
+		z = { "<cmd>TZAtaraxis<CR>", "TZAtaraxis" },
 	},
 }
 
