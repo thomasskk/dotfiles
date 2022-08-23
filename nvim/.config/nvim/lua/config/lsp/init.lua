@@ -3,6 +3,10 @@ local lspconfig = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
+capabilities.textDocument.colorProvider = {
+	dynamicRegistration = true,
+}
+
 local servers = {
 	"clangd",
 	"rust_analyzer",
@@ -24,6 +28,11 @@ for _, lsp in ipairs(servers) do
 			local opts = {
 				silent = true,
 			}
+			if client.server_capabilities.colorProvider then
+				-- Attach document colour support
+				require("document-color").buf_attach(bufnr)
+			end
+
 			local buf_set_keymap = vim.api.nvim_buf_set_keymap
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 			buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
@@ -33,10 +42,6 @@ for _, lsp in ipairs(servers) do
 			buf_set_keymap(bufnr, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-			if client.server_capabilities.colorProvider then
-				require("config/lsp/colorizer").buf_attach(bufnr, { single_column = false, debounce = 500 })
-			end
 		end,
 	})
 end

@@ -83,6 +83,17 @@ return require("packer").startup({
 				"MunifTanjim/nui.nvim",
 			},
 		})
+		use({
+			"mrshmllow/document-color.nvim",
+			config = function()
+				require("document-color").setup({
+					-- Default options
+					mode = "background", -- "background" | "foreground" | "single"
+				})
+			end,
+		})
+		use("RRethy/vim-illuminate")
+		use("samodostal/image.nvim")
 		use("kylechui/nvim-surround")
 		use("lewis6991/gitsigns.nvim")
 		use("itchyny/vim-gitbranch")
