@@ -64,6 +64,7 @@ return require("packer").startup({
 		use("lukas-reineke/indent-blankline.nvim")
 		use("mfussenegger/nvim-dap")
 		use("jose-elias-alvarez/nvim-lsp-ts-utils")
+		use("f-person/git-blame.nvim")
 		use("windwp/nvim-ts-autotag")
 		use({
 			"nvim-lualine/lualine.nvim",
@@ -93,7 +94,6 @@ return require("packer").startup({
 			end,
 		})
 		use("RRethy/vim-illuminate")
-		use("samodostal/image.nvim")
 		use("kylechui/nvim-surround")
 		use("lewis6991/gitsigns.nvim")
 		use("itchyny/vim-gitbranch")

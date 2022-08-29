@@ -23,4 +23,5 @@ set clipboard=unnamedplus
 set mouse=a
 set wrap
 set scrolloff=10
+let g:gitblame_enabled = 0
 ]])
