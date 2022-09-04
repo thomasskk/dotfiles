@@ -46,6 +46,24 @@ for _, lsp in ipairs(servers) do
 	})
 end
 
+require("typescript").setup({
+	disable_commands = false, -- prevent the plugin from creating Vim commands
+	debug = false, -- enable debug logging for commands
+	server = { -- pass options to lspconfig's setup method
+		on_attach = function(client, bufnr)
+			if client.name == "tsserver" then
+				local set_keymap = vim.api.nvim_set_keymap
+				local opts = {
+					silent = true,
+				}
+				set_keymap("n", "gs", ":TypescriptOrganizeImports<CR>:TypescriptRemoveUnused<CR>", opts)
+				set_keymap("n", "gr", ":TypescriptRenameFile<CR>", opts)
+				set_keymap("n", "gia", ":TypescriptAddMissingImports<CR>", opts)
+			end
+		end,
+	},
+})
+
 lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs")
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
@@ -54,36 +72,6 @@ lspconfig.emmet_ls.setup({
 	filetypes = { "html", "css", "typescriptreact", "svelte", "javascriptreact" },
 	capabilities = capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
-})
-
-lspconfig.tsserver.setup({
-	-- Needed for inlayHints. Merge this table with your settings or copy
-	-- it from the source if you want to add your own init_options.
-	init_options = require("nvim-lsp-ts-utils").init_options,
-
-	root_dir = lspconfig.util.root_pattern(".git"),
-	--
-	on_attach = function(client, bufnr)
-		local ts_utils = require("nvim-lsp-ts-utils")
-
-		client.server_capabilities.document_formatting = false
-		client.server_capabilities.document_range_formatting = false
-
-		ts_utils.setup({
-			enable_import_on_completion = true,
-			always_organize_imports = true,
-			update_imports_on_move = true,
-			auto_inlay_hints = false,
-		})
-		ts_utils.setup_client(client)
-		local opts = {
-			silent = true,
-		}
-		local set_keymap = vim.api.nvim_set_keymap
-		set_keymap("n", "gs", ":TSLspOrganize<CR>", opts)
-		set_keymap("n", "gr", ":TSLspRenameFile<CR>", opts)
-		set_keymap("n", "gia", ":TSLspImportAll<CR>", opts)
-	end,
 })
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview

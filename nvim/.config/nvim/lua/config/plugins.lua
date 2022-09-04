@@ -63,7 +63,7 @@ return require("packer").startup({
 		})
 		use("lukas-reineke/indent-blankline.nvim")
 		use("mfussenegger/nvim-dap")
-		use("jose-elias-alvarez/nvim-lsp-ts-utils")
+		use("jose-elias-alvarez/typescript.nvim")
 		use("f-person/git-blame.nvim")
 		use("windwp/nvim-ts-autotag")
 		use({
@@ -83,6 +83,12 @@ return require("packer").startup({
 				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
 				"MunifTanjim/nui.nvim",
 			},
+		})
+		use({
+			"nvim-treesitter/nvim-treesitter-context",
+			config = function()
+				require("treesitter-context").setup({})
+			end,
 		})
 		use({
 			"mrshmllow/document-color.nvim",
