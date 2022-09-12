@@ -56,7 +56,8 @@ require("typescript").setup({
 				local opts = {
 					silent = true,
 				}
-				set_keymap("n", "gs", ":TypescriptOrganizeImports<CR>:TypescriptRemoveUnused<CR>", opts)
+				set_keymap("n", "go", ":TypescriptOrganizeImports<CR>", opts)
+				set_keymap("n", "gs", ":TypescriptRemoveUnused<CR>", opts)
 				set_keymap("n", "gr", ":TypescriptRenameFile<CR>", opts)
 				set_keymap("n", "gia", ":TypescriptAddMissingImports<CR>", opts)
 			end
