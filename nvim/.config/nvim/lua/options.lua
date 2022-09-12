@@ -9,6 +9,10 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
+augroup wraptoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set wrap
+augroup END
 colorscheme gruvbox
 hi Normal guibg=none ctermbg=none
 hi LineNr guibg=none ctermbg=none
@@ -21,7 +25,6 @@ hi EndOfBuffer guibg=none ctermbg=none
 hi NormalFloat guibg=none ctermbg=none
 set clipboard=unnamedplus
 set mouse=a
-set wrap
 set scrolloff=10
 let g:gitblame_enabled = 0
 ]])

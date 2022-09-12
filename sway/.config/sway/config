@@ -262,9 +262,10 @@ bar {
 	swaybar_command waybar
 }
 
+
 # tap-to-click and natural scrolling for all touchpads
 
 exec sway-audio-idle-inhibit
+exec mako
 
 include @sysconfdir@/sway/config.d/*
-
