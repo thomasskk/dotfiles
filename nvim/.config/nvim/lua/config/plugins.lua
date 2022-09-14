@@ -62,6 +62,12 @@ return require("packer").startup({
 			end,
 		})
 		use("lukas-reineke/indent-blankline.nvim")
+		use({
+			"williamboman/mason.nvim",
+			config = function()
+				require("mason").setup({})
+			end,
+		})
 		use("mfussenegger/nvim-dap")
 		use("jose-elias-alvarez/typescript.nvim")
 		use("f-person/git-blame.nvim")
