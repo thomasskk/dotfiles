@@ -12,7 +12,6 @@ local servers = {
 	"rust_analyzer",
 	"pyright",
 	"bashls",
-	"tsserver",
 	"sumneko_lua",
 	"tailwindcss",
 	"gopls",
