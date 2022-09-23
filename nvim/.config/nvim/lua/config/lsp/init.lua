@@ -49,6 +49,9 @@ require("typescript").setup({
 	disable_commands = false, -- prevent the plugin from creating Vim commands
 	debug = false, -- enable debug logging for commands
 	server = { -- pass options to lspconfig's setup method
+		init_options = {
+			maxTsServerMemory = 8192,
+		},
 		on_attach = function(client, bufnr)
 			if client.name == "tsserver" then
 				local set_keymap = vim.api.nvim_set_keymap
