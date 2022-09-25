@@ -93,7 +93,7 @@ return require("packer").startup({
 			"nvim-lualine/lualine.nvim",
 			config = function()
 				require("lualine").setup({
-					options = { theme = "catppuccin" },
+					options = { theme = "gruvbox" },
 				})
 			end,
 		})
@@ -124,6 +124,7 @@ return require("packer").startup({
 		})
 		use("RRethy/vim-illuminate")
 		use("kylechui/nvim-surround")
+		use("Hvassaa/sterm.nvim")
 		use("lewis6991/gitsigns.nvim")
 		use("itchyny/vim-gitbranch")
 		use("ahmedkhalf/project.nvim")
@@ -137,13 +138,6 @@ return require("packer").startup({
 		use({
 			"phaazon/hop.nvim",
 			branch = "v2", -- optional but strongly recommended
-		})
-		use({
-			"catppuccin/nvim",
-			as = "catppuccin",
-			config = function()
-				require("config.catppuccin")
-			end,
 		})
 		if packer_bootstrap then
 			require("packer").sync()
