@@ -25,6 +25,17 @@ return require("packer").startup({
 			"wbthomason/packer.nvim",
 			opt = false,
 		})
+		use({
+			"folke/trouble.nvim",
+			requires = "kyazdani42/nvim-web-devicons",
+			config = function()
+				require("trouble").setup({
+					-- your configuration comes here
+					-- or leave it empty to use the default settings
+					-- refer to the configuration section below
+				})
+			end,
+		})
 		use("nvim-lua/plenary.nvim")
 		use("kyazdani42/nvim-web-devicons")
 		use("neovim/nvim-lspconfig")
@@ -71,12 +82,18 @@ return require("packer").startup({
 		use("mfussenegger/nvim-dap")
 		use("jose-elias-alvarez/typescript.nvim")
 		use("f-person/git-blame.nvim")
+		use({
+			"windwp/nvim-autopairs",
+			config = function()
+				require("nvim-autopairs").setup({})
+			end,
+		})
 		use("windwp/nvim-ts-autotag")
 		use({
 			"nvim-lualine/lualine.nvim",
 			config = function()
 				require("lualine").setup({
-					options = { theme = "gruvbox" },
+					options = { theme = "catppuccin" },
 				})
 			end,
 		})
@@ -113,15 +130,21 @@ return require("packer").startup({
 		use("glepnir/dashboard-nvim")
 		use("akinsho/toggleterm.nvim")
 		use("stevearc/dressing.nvim")
-		use("Pocco81/true-zen.nvim")
 		use("github/copilot.vim")
 		use("ellisonleao/gruvbox.nvim")
+		use("folke/tokyonight.nvim")
 		use("ziontee113/syntax-tree-surfer")
 		use({
 			"phaazon/hop.nvim",
 			branch = "v2", -- optional but strongly recommended
 		})
-
+		use({
+			"catppuccin/nvim",
+			as = "catppuccin",
+			config = function()
+				require("config.catppuccin")
+			end,
+		})
 		if packer_bootstrap then
 			require("packer").sync()
 		end

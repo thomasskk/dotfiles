@@ -31,13 +31,17 @@ null_ls.setup({
 				"graphql",
 			},
 		}),
-		--sql
+
+		-- sql
 		b.diagnostics.sqlfluff.with({
 			extra_args = { "--dialect", "postgres" },
 		}),
 		b.formatting.sqlfluff.with({
 			extra_args = { "--dialect", "postgres" },
 		}),
+		-- c
+		b.diagnostics.cppcheck,
+		b.formatting.clang_format,
 		-- go
 		b.diagnostics.golangci_lint,
 		b.formatting.gofmt,

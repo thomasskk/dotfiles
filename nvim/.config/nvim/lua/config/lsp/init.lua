@@ -6,6 +6,7 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.textDocument.colorProvider = {
 	dynamicRegistration = true,
 }
+capabilities.offsetEncoding = { "utf-16" }
 
 local servers = {
 	"clangd",
@@ -76,13 +77,6 @@ lspconfig.emmet_ls.setup({
 	capabilities = capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
 })
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-	opts = opts or {}
-	opts.border = "single"
-	return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
 
 vim.diagnostic.config({
 	virtual_text = {
