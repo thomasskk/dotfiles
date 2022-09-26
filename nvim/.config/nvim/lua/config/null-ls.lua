@@ -52,6 +52,9 @@ null_ls.setup({
 		b.diagnostics.eslint_d.with({
 			extra_args = { "--cache" },
 		}),
+		-- python
+		b.diagnostics.flake8,
+		b.formatting.black,
 		-- prisma
 		b.formatting.prismaFmt,
 		-- lua
