@@ -11,7 +11,7 @@ function _lazygit_toggle()
 end
 
 require("toggleterm").setup({
-	size = 40,
+	size = 70,
 	direction = "vertical",
 })
 
