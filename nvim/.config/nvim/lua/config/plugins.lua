@@ -60,6 +60,7 @@ return require("packer").startup({
 		use("hrsh7th/cmp-buffer")
 		use("hrsh7th/cmp-path")
 		use("hrsh7th/cmp-cmdline")
+		use("almo7aya/openingh.nvim")
 		use({
 			"numToStr/Comment.nvim",
 			config = function()
@@ -95,6 +96,19 @@ return require("packer").startup({
 					options = { theme = "gruvbox" },
 				})
 			end,
+		})
+		use({
+			"folke/noice.nvim",
+			event = "VimEnter",
+			config = function()
+				require("noice").setup()
+			end,
+			requires = {
+				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+				"MunifTanjim/nui.nvim",
+				"rcarriga/nvim-notify",
+				"hrsh7th/nvim-cmp",
+			},
 		})
 		use("folke/which-key.nvim")
 		use({
