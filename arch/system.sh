@@ -19,10 +19,6 @@ yay -Syu
 xargs -a ~/pkg.list yay -S --noconfirm
 
 # nvim
-mkdir -p ~/.cargo/bin
-curl -L https://github.com/MordechaiHadad/bob/releases/download/v1.0.1/bob-linux-x86_64.zip | bsdtar -xf- -C ~/.cargo/bin
-sudo chmod +x ~/.cargo/bin/bob
-~/.cargo/bin/bob use nightly
 sudo cpanm -n Neovim::Ext
 
 # root
@@ -30,7 +26,7 @@ echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl --system
 
 # node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install --lts
 
