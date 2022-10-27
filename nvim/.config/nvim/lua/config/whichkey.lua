@@ -116,6 +116,9 @@ local mappings = {
 	f = {
 		f = { "<cmd>Telescope find_files<cr>", "hover" },
 		g = { "<cmd>Telescope live_grep<cr>", "hover" },
+		h = { "<cmd>Telescope dir live_grep<cr>", "hover" },
+		d = { "<cmd>Telescope dir find_files<cr>", "hover" },
+		b = { "<cmd>Telescope buffers<cr>", "hover" },
 	},
 	l = {
 		name = "LSP",

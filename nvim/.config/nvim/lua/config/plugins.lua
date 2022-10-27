@@ -102,38 +102,6 @@ return require("packer").startup({
 			"folke/noice.nvim",
 			event = "VimEnter",
 			config = function()
-				require("noice").setup({
-					views = {
-						cmdline_popup = {
-							position = {
-								row = 5,
-								col = "50%",
-							},
-							size = {
-								width = 60,
-								height = "auto",
-							},
-						},
-						popupmenu = {
-							relative = "editor",
-							position = {
-								row = 8,
-								col = "50%",
-							},
-							size = {
-								width = 60,
-								height = 10,
-							},
-							border = {
-								style = "rounded",
-								padding = { 0, 1 },
-							},
-							win_options = {
-								winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-							},
-						},
-					},
-				})
 				require("notify").setup({
 					background_colour = "#000000",
 				})
@@ -179,6 +147,17 @@ return require("packer").startup({
 		use("glepnir/dashboard-nvim")
 		use("akinsho/toggleterm.nvim")
 		use("stevearc/dressing.nvim")
+		use({
+			"princejoogie/dir-telescope.nvim",
+			-- telescope.nvim is a required dependency
+			requires = { "nvim-telescope/telescope.nvim" },
+			config = function()
+				require("dir-telescope").setup({
+					hidden = true,
+					respect_gitignore = true,
+				})
+			end,
+		})
 		use("github/copilot.vim")
 		use("ellisonleao/gruvbox.nvim")
 		use("folke/tokyonight.nvim")

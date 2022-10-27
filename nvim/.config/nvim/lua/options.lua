@@ -6,11 +6,10 @@ augroup numbertoggle
 augroup END
 augroup wraptoggle
   autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set wrap
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set wrap | set number
 augroup END
 set termguicolors
 set hidden
-set number
 set clipboard=unnamedplus
 set mouse=a
 set scrolloff=10

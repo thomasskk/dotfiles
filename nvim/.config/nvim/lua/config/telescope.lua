@@ -1,7 +1,9 @@
 require("telescope").setup({
 	defaults = {
-		-- Default configuration for telescope goes here:
-		-- config_key = value,
+		wrap_results = true,
+		layout_config = {
+			horizontal = { width = 0.99 },
+		},
 		mappings = {
 			i = {
 				-- map actions.which_key to <C-h> (default: <C-/>)
@@ -28,5 +30,12 @@ require("telescope").setup({
 		-- please take a look at the readme of the extension you want to configure
 	},
 })
+
+vim.cmd([[
+augroup TelescopeWrap 
+  autocmd!
+  autocmd User TelescopePreviewerLoaded setlocal wrap
+augroup END
+]])
 
 local opts = { noremap = true, silent = true }
