@@ -102,8 +102,15 @@ return require("packer").startup({
 			"folke/noice.nvim",
 			event = "VimEnter",
 			config = function()
-				require("notify").setup({
+				require("noice").setup({
 					background_colour = "#000000",
+					cmdline = {
+						enabled = false,
+					},
+					messages = { enabled = false },
+					notify = {
+						enabled = false,
+					},
 				})
 			end,
 			requires = {
