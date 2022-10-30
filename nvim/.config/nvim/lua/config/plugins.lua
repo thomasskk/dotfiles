@@ -42,6 +42,13 @@ return require("packer").startup({
 		use("nvim-telescope/telescope.nvim")
 		use("jose-elias-alvarez/null-ls.nvim")
 		use({
+			"s1n7ax/nvim-window-picker",
+			tag = "v1.*",
+			config = function()
+				require("window-picker").setup()
+			end,
+		})
+		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
 		})
@@ -54,12 +61,16 @@ return require("packer").startup({
 			ft = { "markdown" },
 		})
 		use("hrsh7th/vim-vsnip")
+		use("hrsh7th/vim-vsnip-integ")
 		use("hrsh7th/nvim-cmp")
+		use("rafamadriz/friendly-snippets")
 		use("hrsh7th/cmp-nvim-lsp")
 		use("hrsh7th/cmp-vsnip")
 		use("hrsh7th/cmp-buffer")
 		use("hrsh7th/cmp-path")
 		use("hrsh7th/cmp-cmdline")
+		use("hrsh7th/cmp-nvim-lsp-signature-help")
+		use("ray-x/cmp-treesitter")
 		use("almo7aya/openingh.nvim")
 		use({
 			"numToStr/Comment.nvim",
@@ -79,7 +90,6 @@ return require("packer").startup({
 				require("mason").setup({})
 			end,
 		})
-		use("mfussenegger/nvim-dap")
 		use("jose-elias-alvarez/typescript.nvim")
 		use("f-person/git-blame.nvim")
 		use({
@@ -99,26 +109,17 @@ return require("packer").startup({
 			end,
 		})
 		use({
-			"folke/noice.nvim",
-			event = "VimEnter",
+			"glepnir/lspsaga.nvim",
+			branch = "main",
 			config = function()
-				require("noice").setup({
-					background_colour = "#000000",
-					cmdline = {
-						enabled = false,
-					},
-					messages = { enabled = false },
-					notify = {
-						enabled = false,
+				local saga = require("lspsaga")
+				saga.init_lsp_saga({
+					code_action_keys = {
+						quit = "<ESC>",
+						exec = "<CR>",
 					},
 				})
 			end,
-			requires = {
-				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-				"MunifTanjim/nui.nvim",
-				"rcarriga/nvim-notify",
-				"hrsh7th/nvim-cmp",
-			},
 		})
 		use("folke/which-key.nvim")
 		use({
@@ -149,6 +150,7 @@ return require("packer").startup({
 		use("kylechui/nvim-surround")
 		use("Hvassaa/sterm.nvim")
 		use("lewis6991/gitsigns.nvim")
+		use("onsails/lspkind.nvim")
 		use("itchyny/vim-gitbranch")
 		use("ahmedkhalf/project.nvim")
 		use("glepnir/dashboard-nvim")
@@ -167,7 +169,6 @@ return require("packer").startup({
 		})
 		use("github/copilot.vim")
 		use("ellisonleao/gruvbox.nvim")
-		use("folke/tokyonight.nvim")
 		use("ziontee113/syntax-tree-surfer")
 		use({
 			"phaazon/hop.nvim",

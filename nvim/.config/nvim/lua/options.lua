@@ -24,4 +24,5 @@ set tabstop=2
 set shiftwidth=2
 let g:gitblame_enabled = 0
 set linespace=5
+set completeopt=menu,menuone,noselect
 ]])

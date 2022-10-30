@@ -79,10 +79,10 @@ local opts = {
 }
 
 local mappings = {
-	["e"] = { "<cmd>NeoTreeFocusToggle<cr>", "Explorer" },
-	["w"] = { "<cmd>w!<CR>", "Save" },
-	["q"] = { "<cmd>q!<CR>", "Quit" },
-	["t"] = { "<cmd>TroubleToggle<cr>", "Trouble" },
+	e = { "<cmd>NeoTreeFocusToggle<cr>", "Explorer" },
+	w = { "<cmd>w!<CR>", "Save" },
+	q = { "<cmd>q!<CR>", "Quit" },
+	t = { "<cmd>TroubleToggle<cr>", "Trouble" },
 	p = {
 		name = "Packer",
 		c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -119,14 +119,12 @@ local mappings = {
 		h = { "<cmd>Telescope dir live_grep<cr>", "hover" },
 		d = { "<cmd>Telescope dir find_files<cr>", "hover" },
 		b = { "<cmd>Telescope buffers<cr>", "hover" },
+		e = { "<cmd>Neotree<cr>", "focus neotree" },
 	},
 	l = {
 		name = "LSP",
-		k = { "<cmd>lua vim.lsp.buf.hover()<cr>", "hover" },
-		d = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "declaration" },
-		f = { "<cmd>lua vim.lsp.buf.definition()<CR>", "definition" },
-		g = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "type_definition" },
-		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "diagnostic" },
+		k = { "<cmd>Lspsaga hover_doc<cr>", "hover" },
+		e = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "diagnostic" },
 	},
 }
 
