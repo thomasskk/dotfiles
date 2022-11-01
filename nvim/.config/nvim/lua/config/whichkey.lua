@@ -123,8 +123,8 @@ local mappings = {
 	},
 	l = {
 		name = "LSP",
-		k = { "<cmd>Lspsaga hover_doc<cr>", "hover" },
-		e = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "diagnostic" },
+		k = { "<cmd>lua vim.lsp.buf.hover()<cr>", "hover" },
+		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "diagnostic" },
 	},
 }
 

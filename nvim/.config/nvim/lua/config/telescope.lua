@@ -13,14 +13,24 @@ require("telescope").setup({
 			},
 		},
 	},
+	preview = {
+		filesize_hook = function(filepath, bufnr, opts)
+			local max_bytes = 10000
+			local cmd = { "head", "-c", max_bytes, filepath }
+			require("telescope.previewers.utils").job_maker(cmd, bufnr, opts)
+		end,
+	},
 	pickers = {
-		-- Default configuration for builtin pickers goes here:
-		-- picker_name = {
-		--   picker_config_key = value,
-		--   ...
-		-- }
-		-- Now the picker_config_key will be applied every time you call this
-		-- builtin picker
+		find_files = {
+			hidden = true,
+			file_ignore_patterns = { ".git/" },
+		},
+		live_grep = {
+			file_ignore_patterns = { ".git/" },
+			additional_args = function(opts)
+				return { "--hidden" }
+			end,
+		},
 	},
 	extensions = {
 		-- Your extension configuration goes here:

@@ -37,6 +37,20 @@ return require("packer").startup({
 			end,
 		})
 		use("nvim-lua/plenary.nvim")
+		use({
+			"David-Kunz/cmp-npm",
+			requires = {
+				"nvim-lua/plenary.nvim",
+			},
+		})
+		use({
+			"saecki/crates.nvim",
+			event = { "BufRead Cargo.toml" },
+			requires = { { "nvim-lua/plenary.nvim" } },
+			config = function()
+				require("crates").setup()
+			end,
+		})
 		use("kyazdani42/nvim-web-devicons")
 		use("neovim/nvim-lspconfig")
 		use("nvim-telescope/telescope.nvim")
@@ -63,13 +77,13 @@ return require("packer").startup({
 		use("hrsh7th/vim-vsnip")
 		use("hrsh7th/vim-vsnip-integ")
 		use("hrsh7th/nvim-cmp")
+		use("hrsh7th/cmp-nvim-lsp-signature-help")
 		use("rafamadriz/friendly-snippets")
 		use("hrsh7th/cmp-nvim-lsp")
 		use("hrsh7th/cmp-vsnip")
 		use("hrsh7th/cmp-buffer")
 		use("hrsh7th/cmp-path")
 		use("hrsh7th/cmp-cmdline")
-		use("hrsh7th/cmp-nvim-lsp-signature-help")
 		use("ray-x/cmp-treesitter")
 		use("almo7aya/openingh.nvim")
 		use({
@@ -105,19 +119,6 @@ return require("packer").startup({
 			config = function()
 				require("lualine").setup({
 					options = { theme = "gruvbox" },
-				})
-			end,
-		})
-		use({
-			"glepnir/lspsaga.nvim",
-			branch = "main",
-			config = function()
-				local saga = require("lspsaga")
-				saga.init_lsp_saga({
-					code_action_keys = {
-						quit = "<ESC>",
-						exec = "<CR>",
-					},
 				})
 			end,
 		})
