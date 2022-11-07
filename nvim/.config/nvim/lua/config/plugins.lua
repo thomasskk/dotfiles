@@ -62,6 +62,7 @@ return require("packer").startup({
 				require("window-picker").setup()
 			end,
 		})
+		use("b0o/incline.nvim")
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
