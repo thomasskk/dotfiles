@@ -27,5 +27,4 @@ set linespace=5
 set completeopt=menu,menuone,noselect
 set autoread
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-set spell
 ]])
