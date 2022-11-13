@@ -1,5 +1,5 @@
 local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
@@ -34,3 +34,15 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Prevent copy on paste
 keymap("v", "p", '"_dP', opts)
+
+keymap({ "n", "x" }, "<leader>sr", function()
+	require("ssr").open()
+end)
+
+keymap("n", "<leader>ha", function()
+	require("harpoon.mark").add_file()
+end)
+
+keymap("n", "<leader>hh", function()
+	require("harpoon.ui").toggle_quick_menu()
+end)

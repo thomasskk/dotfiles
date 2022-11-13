@@ -66,6 +66,25 @@ require("typescript").setup({
 	},
 })
 
+lspconfig.rust_analyzer.settings = {
+	["rust-analyzer"] = {
+		imports = {
+			granularity = {
+				group = "module",
+			},
+			prefix = "self",
+		},
+		cargo = {
+			buildScripts = {
+				enable = true,
+			},
+		},
+		diagnostics = { disabled = { "unresolved-proc-macro" } },
+		checkOnSave = {
+			command = "clippy",
+		},
+	},
+}
 lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs")
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
