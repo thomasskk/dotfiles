@@ -43,6 +43,4 @@ keymap("n", "<leader>ha", function()
 	require("harpoon.mark").add_file()
 end)
 
-keymap("n", "<leader>hh", function()
-	require("harpoon.ui").toggle_quick_menu()
-end)
+keymap("n", "<leader>hh", ":Telescope harpoon marks<CR>")

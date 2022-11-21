@@ -29,14 +29,35 @@ return require("packer").startup({
 			"folke/trouble.nvim",
 			requires = "kyazdani42/nvim-web-devicons",
 			config = function()
-				require("trouble").setup({
-					-- your configuration comes here
-					-- or leave it empty to use the default settings
-					-- refer to the configuration section below
-				})
+				require("trouble").setup({})
 			end,
 		})
 		use("nvim-lua/plenary.nvim")
+		use({
+			"petertriho/nvim-scrollbar",
+			config = function()
+				require("scrollbar").setup({
+					marks = {
+						Search = { priority = 0, color = "orange" },
+						Error = { priority = 1, color = "red" },
+						Warn = { priority = 2, color = "yellow" },
+						Info = { priority = 3, color = "blue" },
+						Hint = { priority = 4, color = "green" },
+						Misc = { priority = 5, color = "purple" },
+					},
+				})
+			end,
+		})
+		use({
+			"kevinhwang91/nvim-hlslens",
+			config = function()
+				require("hlslens").setup({
+					calm_down = true,
+					nearest_only = true,
+					nearest_float_when = "always",
+				})
+			end,
+		})
 		use({
 			"David-Kunz/cmp-npm",
 			requires = {
@@ -66,6 +87,14 @@ return require("packer").startup({
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
+			config = function()
+				require("nvim-treesitter.configs").setup({
+					highlight = {
+						enable = true,
+						disable = { "comment", "jsdoc" },
+					},
+				})
+			end,
 		})
 		use({
 			"iamcco/markdown-preview.nvim",
@@ -92,7 +121,12 @@ return require("packer").startup({
 				})
 			end,
 		})
-		use("ThePrimeagen/harpoon")
+		use({
+			"ThePrimeagen/harpoon",
+			config = function()
+				require("telescope").load_extension("harpoon")
+			end,
+		})
 		use("hrsh7th/vim-vsnip")
 		use("hrsh7th/vim-vsnip-integ")
 		use("hrsh7th/nvim-cmp")
