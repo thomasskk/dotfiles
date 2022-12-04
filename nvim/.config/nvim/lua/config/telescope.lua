@@ -1,8 +1,11 @@
-require("telescope").setup({
+local telescope = require("telescope")
+
+telescope.setup({
 	defaults = {
+		path_display = { "truncate", truncate = 5 },
 		wrap_results = true,
 		layout_config = {
-			horizontal = { width = 0.99 },
+			horizontal = { width = 0.99, preview_cutoff = 60 },
 		},
 		mappings = {
 			i = {
@@ -33,19 +36,24 @@ require("telescope").setup({
 		},
 	},
 	extensions = {
-		-- Your extension configuration goes here:
-		-- extension_name = {
-		--   extension_config_key = value,
-		-- }
-		-- please take a look at the readme of the extension you want to configure
+		fzf = {
+			fuzzy = true, -- false will only do exact matching
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+		},
+		file_browser = {
+			cwd_to_path = true,
+			path = "%:p:h",
+			-- disables netrw and use telescope-file-browser in its place
+			hijack_netrw = true,
+			mappings = {
+				["i"] = {},
+				["n"] = {},
+			},
+		},
 	},
 })
 
-vim.cmd([[
-augroup TelescopeWrap 
-  autocmd!
-  autocmd User TelescopePreviewerLoaded setlocal wrap
-augroup END
-]])
-
-local opts = { noremap = true, silent = true }
+telescope.load_extension("fzf")
+telescope.load_extension("file_browser")

@@ -34,31 +34,6 @@ return require("packer").startup({
 		})
 		use("nvim-lua/plenary.nvim")
 		use({
-			"petertriho/nvim-scrollbar",
-			config = function()
-				require("scrollbar").setup({
-					marks = {
-						Search = { priority = 0, color = "orange" },
-						Error = { priority = 1, color = "red" },
-						Warn = { priority = 2, color = "yellow" },
-						Info = { priority = 3, color = "blue" },
-						Hint = { priority = 4, color = "green" },
-						Misc = { priority = 5, color = "purple" },
-					},
-				})
-			end,
-		})
-		use({
-			"kevinhwang91/nvim-hlslens",
-			config = function()
-				require("hlslens").setup({
-					calm_down = true,
-					nearest_only = true,
-					nearest_float_when = "always",
-				})
-			end,
-		})
-		use({
 			"David-Kunz/cmp-npm",
 			requires = {
 				"nvim-lua/plenary.nvim",
@@ -75,6 +50,7 @@ return require("packer").startup({
 		use("kyazdani42/nvim-web-devicons")
 		use("neovim/nvim-lspconfig")
 		use("nvim-telescope/telescope.nvim")
+		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 		use("jose-elias-alvarez/null-ls.nvim")
 		use({
 			"s1n7ax/nvim-window-picker",
@@ -105,6 +81,16 @@ return require("packer").startup({
 			ft = { "markdown" },
 		})
 		use({
+			"ahmedkhalf/project.nvim",
+			config = function()
+				require("project_nvim").setup({
+					-- your configuration comes here
+					-- or leave it empty to use the default settings
+					-- refer to the configuration section below
+				})
+			end,
+		})
+		use({
 			"cshuaimin/ssr.nvim",
 			module = "ssr",
 			-- Calling setup is optional.
@@ -130,7 +116,6 @@ return require("packer").startup({
 		use("hrsh7th/vim-vsnip")
 		use("hrsh7th/vim-vsnip-integ")
 		use("hrsh7th/nvim-cmp")
-		use("hrsh7th/cmp-nvim-lsp-signature-help")
 		use("rafamadriz/friendly-snippets")
 		use("hrsh7th/cmp-nvim-lsp")
 		use("hrsh7th/cmp-vsnip")
@@ -138,17 +123,10 @@ return require("packer").startup({
 		use("hrsh7th/cmp-path")
 		use("hrsh7th/cmp-cmdline")
 		use("ray-x/cmp-treesitter")
-		use("almo7aya/openingh.nvim")
 		use({
 			"numToStr/Comment.nvim",
 			config = function()
 				require("Comment").setup()
-			end,
-		})
-		use({
-			"norcalli/nvim-colorizer.lua",
-			config = function()
-				require("colorizer").setup()
 			end,
 		})
 		use({
@@ -165,7 +143,6 @@ return require("packer").startup({
 				require("nvim-autopairs").setup({})
 			end,
 		})
-
 		use("windwp/nvim-ts-autotag")
 		use({
 			"nvim-lualine/lualine.nvim",
@@ -176,15 +153,6 @@ return require("packer").startup({
 			end,
 		})
 		use("folke/which-key.nvim")
-		use({
-			"nvim-neo-tree/neo-tree.nvim",
-			branch = "main",
-			requires = {
-				"nvim-lua/plenary.nvim",
-				"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-				"MunifTanjim/nui.nvim",
-			},
-		})
 		use({
 			"nvim-treesitter/nvim-treesitter-context",
 			config = function()
@@ -202,11 +170,8 @@ return require("packer").startup({
 		})
 		use("RRethy/vim-illuminate")
 		use("kylechui/nvim-surround")
-		use("Hvassaa/sterm.nvim")
 		use("lewis6991/gitsigns.nvim")
 		use("onsails/lspkind.nvim")
-		use("itchyny/vim-gitbranch")
-		use("ahmedkhalf/project.nvim")
 		use("glepnir/dashboard-nvim")
 		use("akinsho/toggleterm.nvim")
 		use("stevearc/dressing.nvim")
@@ -223,6 +188,7 @@ return require("packer").startup({
 		})
 		use("github/copilot.vim")
 		use("ellisonleao/gruvbox.nvim")
+		use("nvim-telescope/telescope-file-browser.nvim")
 		use("ziontee113/syntax-tree-surfer")
 		use({
 			"phaazon/hop.nvim",
