@@ -44,3 +44,6 @@ keymap("n", "<leader>ha", function()
 end)
 
 keymap("n", "<leader>hh", ":Telescope harpoon marks<CR>")
+
+keymap("n", "<C-d>", "<C-d>zz", opts)
+keymap("n", "<C-u>", "<C-u>zz", opts)

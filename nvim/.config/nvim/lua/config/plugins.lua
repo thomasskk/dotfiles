@@ -1,218 +1,236 @@
-local fn = vim.fn
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	packer_bootstrap = fn.system({
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
 		"git",
 		"clone",
-		"--depth",
-		"1",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
+		"--filter=blob:none",
+		"--single-branch",
+		"https://github.com/folke/lazy.nvim.git",
+		lazypath,
 	})
 end
 
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
+vim.opt.runtimepath:prepend(lazypath)
 
-return require("packer").startup({
-	function(use)
-		use({
-			"wbthomason/packer.nvim",
-			opt = false,
-		})
-		use({
-			"folke/trouble.nvim",
-			requires = "kyazdani42/nvim-web-devicons",
-			config = function()
-				require("trouble").setup({})
-			end,
-		})
-		use("nvim-lua/plenary.nvim")
-		use({
-			"David-Kunz/cmp-npm",
-			requires = {
-				"nvim-lua/plenary.nvim",
-			},
-		})
-		use({
-			"folke/zen-mode.nvim",
-			config = function()
-				require("zen-mode").setup({
-					-- your configuration comes here
-					-- or leave it empty to use the default settings
-					-- refer to the configuration section below
-				})
-			end,
-		})
-		use({
-			"saecki/crates.nvim",
-			event = { "BufRead Cargo.toml" },
-			requires = { { "nvim-lua/plenary.nvim" } },
-			config = function()
-				require("crates").setup()
-			end,
-		})
-		use("kyazdani42/nvim-web-devicons")
-		use("neovim/nvim-lspconfig")
-		use("nvim-telescope/telescope.nvim")
-		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-		use("jose-elias-alvarez/null-ls.nvim")
-		use({
-			"s1n7ax/nvim-window-picker",
-			tag = "v1.*",
-			config = function()
-				require("window-picker").setup()
-			end,
-		})
-		use("b0o/incline.nvim")
-		use({
-			"nvim-treesitter/nvim-treesitter",
-			run = ":TSUpdate",
-			config = function()
-				require("nvim-treesitter.configs").setup({
-					highlight = {
-						enable = true,
-						disable = { "comment", "jsdoc" },
-					},
-				})
-			end,
-		})
-		use({
-			"iamcco/markdown-preview.nvim",
-			run = "cd app && npm install",
-			setup = function()
-				vim.g.mkdp_filetypes = { "markdown" }
-			end,
-			ft = { "markdown" },
-		})
-		use({
-			"ahmedkhalf/project.nvim",
-			config = function()
-				require("project_nvim").setup({
-					-- your configuration comes here
-					-- or leave it empty to use the default settings
-					-- refer to the configuration section below
-				})
-			end,
-		})
-		use({
-			"cshuaimin/ssr.nvim",
-			module = "ssr",
-			-- Calling setup is optional.
-			config = function()
-				require("ssr").setup({
-					min_width = 50,
-					min_height = 5,
-					keymaps = {
-						close = "q",
-						next_match = "n",
-						prev_match = "N",
-						replace_all = "<leader><cr>",
-					},
-				})
-			end,
-		})
-		use({
-			"ThePrimeagen/harpoon",
-			config = function()
-				require("telescope").load_extension("harpoon")
-			end,
-		})
-		use("hrsh7th/vim-vsnip")
-		use("hrsh7th/vim-vsnip-integ")
-		use("hrsh7th/nvim-cmp")
-		use("rafamadriz/friendly-snippets")
-		use("hrsh7th/cmp-nvim-lsp")
-		use("hrsh7th/cmp-vsnip")
-		use("hrsh7th/cmp-buffer")
-		use("hrsh7th/cmp-path")
-		use("hrsh7th/cmp-cmdline")
-		use("ray-x/cmp-treesitter")
-		use({
-			"numToStr/Comment.nvim",
-			config = function()
-				require("Comment").setup()
-			end,
-		})
-		use({
-			"williamboman/mason.nvim",
-			config = function()
-				require("mason").setup({})
-			end,
-		})
-		use("jose-elias-alvarez/typescript.nvim")
-		use("f-person/git-blame.nvim")
-		use({
-			"windwp/nvim-autopairs",
-			config = function()
-				require("nvim-autopairs").setup({})
-			end,
-		})
-		use("windwp/nvim-ts-autotag")
-		use({
-			"nvim-lualine/lualine.nvim",
-			config = function()
-				require("lualine").setup({
-					options = { theme = "gruvbox" },
-				})
-			end,
-		})
-		use("folke/which-key.nvim")
-		use({
-			"nvim-treesitter/nvim-treesitter-context",
-			config = function()
-				require("treesitter-context").setup({})
-			end,
-		})
-		use({
-			"mrshmllow/document-color.nvim",
-			config = function()
-				require("document-color").setup({
-					-- Default options
-					mode = "background", -- "background" | "foreground" | "single"
-				})
-			end,
-		})
-		use("RRethy/vim-illuminate")
-		use("kylechui/nvim-surround")
-		use("lewis6991/gitsigns.nvim")
-		use("onsails/lspkind.nvim")
-		use("glepnir/dashboard-nvim")
-		use("akinsho/toggleterm.nvim")
-		use("stevearc/dressing.nvim")
-		use({
-			"princejoogie/dir-telescope.nvim",
-			-- telescope.nvim is a required dependency
-			requires = { "nvim-telescope/telescope.nvim" },
-			config = function()
-				require("dir-telescope").setup({
-					hidden = true,
-					respect_gitignore = true,
-				})
-			end,
-		})
-		use("github/copilot.vim")
-		use("ellisonleao/gruvbox.nvim")
-		use("nvim-telescope/telescope-file-browser.nvim")
-		use("ziontee113/syntax-tree-surfer")
-		use({
-			"phaazon/hop.nvim",
-			branch = "v2", -- optional but strongly recommended
-		})
-		if packer_bootstrap then
-			require("packer").sync()
-		end
-	end,
-	config = {
-		display = {
-			open_fn = function()
-				return require("packer.util").float({ border = "single" })
-			end,
+require("lazy").setup({
+	"thomasskk/lualine-lsp-progress",
+	{
+		"folke/trouble.nvim",
+		dependencies = "kyazdani42/nvim-web-devicons",
+		config = true,
+		lazy = true,
+	},
+	"nvim-lua/plenary.nvim",
+	{
+		"David-Kunz/cmp-npm",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
 		},
+	},
+	{
+		"rareitems/printer.nvim",
+		config = function()
+			require("printer").setup({
+				keymap = "gp",
+				behavior = "insert_below",
+				formatters = {
+					lua = function(inside, variable)
+						return string.format('print("%s: " .. %s)', inside, variable)
+					end,
+				},
+				add_to_inside = function(text)
+					return string.format("[%s:%s] %s", vim.fn.expand("%"), vim.fn.line("."), text)
+				end,
+			})
+
+			vim.keymap.set("n", "gP", "<Plug>(printer_print)iw")
+		end,
+	},
+	{
+		"saecki/crates.nvim",
+		event = { "BufRead Cargo.toml" },
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = true,
+		ft = { "rust" },
+	},
+	{
+		"RRethy/nvim-base16",
+		config = function()
+			local plugin = require("base16-colorscheme")
+
+			plugin.with_config({
+				telescope = false,
+			})
+
+			plugin.setup({
+				base00 = "#222222",
+				base01 = "#303030",
+				base02 = "#555555",
+				base03 = "#898989",
+				base04 = "#898989",
+				base05 = "#c0c0c0",
+				base06 = "#e0e0e0",
+				base07 = "#ffffff",
+				base08 = "#e15d67",
+				base09 = "#fc804e",
+				base0A = "#e1b31a",
+				base0B = "#5db129",
+				base0C = "#21c992",
+				base0D = "#00a3f2",
+				base0E = "#b46ee0",
+				base0F = "#b87d28",
+			})
+		end,
+	},
+	"yioneko/nvim-type-fmt",
+	"kyazdani42/nvim-web-devicons",
+	{ "neovim/nvim-lspconfig", lazy = true },
+	{
+		"bennypowers/nvim-regexplainer",
+		config = {
+			auto = true,
+		},
+		requires = {
+			"nvim-treesitter/nvim-treesitter",
+			"MunifTanjim/nui.nvim",
+		},
+	},
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		build = "make",
+		config = function()
+			require("telescope").load_extension("fzf")
+		end,
+	},
+	"shortcuts/no-neck-pain.nvim",
+	"nvim-telescope/telescope.nvim",
+	"jose-elias-alvarez/null-ls.nvim",
+	{
+		"s1n7ax/nvim-window-picker",
+		config = true,
+		lazy = true,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = {
+			highlight = {
+				enable = true,
+				disable = { "comment", "jsdoc" },
+			},
+		},
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && npm install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	},
+	{
+		"ahmedkhalf/project.nvim",
+	},
+	{
+		"cshuaimin/ssr.nvim",
+		module = "ssr",
+		lazy = true,
+		config = {
+			min_width = 50,
+			min_height = 5,
+			keymaps = {
+				close = "q",
+				next_match = "n",
+				prev_match = "N",
+				replace_all = "<leader><cr>",
+			},
+		},
+	},
+	{
+		"ThePrimeagen/harpoon",
+		lazy = true,
+		config = function()
+			require("telescope").load_extension("harpoon")
+		end,
+	},
+	"MunifTanjim/nui.nvim",
+	{
+		"jackMort/ChatGPT.nvim",
+		config = true,
+		requires = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+	},
+	"aduros/ai.vim",
+	{ "hrsh7th/vim-vsnip-integ" },
+	{ "hrsh7th/vim-vsnip" },
+	"hrsh7th/nvim-cmp",
+	"rafamadriz/friendly-snippets",
+	"hrsh7th/cmp-nvim-lsp",
+	{ "hrsh7th/cmp-vsnip" },
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	"ray-x/cmp-treesitter",
+	{
+		"numToStr/Comment.nvim",
+		config = true,
+		lazy = true,
+	},
+	{
+		"williamboman/mason.nvim",
+		config = true,
+	},
+	"jose-elias-alvarez/typescript.nvim",
+	{
+		"f-person/git-blame.nvim",
+		init = function()
+			vim.g.gitblame_enabled = 0
+		end,
+	},
+	{
+		"windwp/nvim-autopairs",
+		config = true,
+	},
+	{ "windwp/nvim-ts-autotag", lazy = true },
+	"nvim-lualine/lualine.nvim",
+	"folke/which-key.nvim",
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		config = true,
+		lazy = true,
+	},
+	{
+		"mrshmllow/document-color.nvim",
+		config = {
+			mode = "background",
+		},
+	},
+	"RRethy/vim-illuminate",
+	"kylechui/nvim-surround",
+	"lewis6991/gitsigns.nvim",
+	"onsails/lspkind.nvim",
+	"glepnir/dashboard-nvim",
+	"akinsho/toggleterm.nvim",
+	"stevearc/dressing.nvim",
+	{
+		"princejoogie/dir-telescope.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = {
+			hidden = true,
+			respect_gitignore = true,
+		},
+	},
+	"github/copilot.vim",
+	"nvim-telescope/telescope-file-browser.nvim",
+	"ziontee113/syntax-tree-surfer",
+	{
+		"phaazon/hop.nvim",
+		lazy = true,
+		branch = "v2",
 	},
 })

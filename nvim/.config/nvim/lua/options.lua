@@ -22,9 +22,21 @@ set smartcase
 set smartindent
 set tabstop=2
 set shiftwidth=2
-let g:gitblame_enabled = 0
 set linespace=5
 set completeopt=menu,menuone,noselect
 set autoread
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+set undofile
 ]])
+
+vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+
+-- disable diagnostic in .env files
+local group = vim.api.nvim_create_augroup("__env", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = ".env",
+	group = group,
+	callback = function(args)
+		vim.diagnostic.disable(args.buf)
+	end,
+})

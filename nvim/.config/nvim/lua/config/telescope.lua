@@ -26,10 +26,10 @@ telescope.setup({
 	pickers = {
 		find_files = {
 			hidden = true,
-			file_ignore_patterns = { ".git/" },
+			file_ignore_patterns = { ".git/", "dist", "node_modules" },
 		},
 		live_grep = {
-			file_ignore_patterns = { ".git/" },
+			file_ignore_patterns = { ".git/", "dist", "node_modules" },
 			additional_args = function(opts)
 				return { "--hidden" }
 			end,
@@ -45,7 +45,6 @@ telescope.setup({
 		file_browser = {
 			cwd_to_path = true,
 			path = "%:p:h",
-			-- disables netrw and use telescope-file-browser in its place
 			hijack_netrw = true,
 			mappings = {
 				["i"] = {},
@@ -55,5 +54,4 @@ telescope.setup({
 	},
 })
 
-telescope.load_extension("fzf")
 telescope.load_extension("file_browser")

@@ -58,7 +58,9 @@ null_ls.setup({
 		-- prisma
 		b.formatting.prismaFmt,
 		-- lua
-		b.diagnostics.luacheck,
+		b.diagnostics.luacheck.with({
+			extra_args = { "--globals", "vim" },
+		}),
 		b.formatting.stylua,
 		-- rust
 		b.formatting.rustfmt,

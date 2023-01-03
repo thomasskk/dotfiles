@@ -6,6 +6,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 capabilities.textDocument.colorProvider = {
 	dynamicRegistration = true,
 }
+
 capabilities.offsetEncoding = { "utf-16" }
 
 local servers = {
@@ -22,26 +23,39 @@ local servers = {
 }
 
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
+	local opts = {
+
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
 			local opts = {
 				silent = true,
 			}
+
 			if client.server_capabilities.colorProvider then
-				-- Attach document colour support
 				require("document-color").buf_attach(bufnr)
 			end
 
 			local buf_set_keymap = vim.api.nvim_buf_set_keymap
+
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
 			buf_set_keymap(bufnr, "n", "gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gi", "<cmd>Telescope lsp_implementations()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 		end,
-	})
+	}
+
+	if lsp == "sumneko_lua" then
+		opts.settings = {
+			Lua = {
+				diagnostics = { globals = { "vim" } },
+			},
+		}
+	end
+
+	lspconfig[lsp].setup(opts)
 end
 
 require("typescript").setup({
@@ -51,12 +65,14 @@ require("typescript").setup({
 		init_options = {
 			maxTsServerMemory = 8192,
 		},
-		on_attach = function(client, bufnr)
+		on_attach = function(client)
 			if client.name == "tsserver" then
 				local set_keymap = vim.api.nvim_set_keymap
+
 				local opts = {
 					silent = true,
 				}
+
 				set_keymap("n", "go", ":TypescriptOrganizeImports<CR>", opts)
 				set_keymap("n", "gs", ":TypescriptRemoveUnused<CR>", opts)
 				set_keymap("n", "gr", ":TypescriptRenameFile<CR>", opts)
