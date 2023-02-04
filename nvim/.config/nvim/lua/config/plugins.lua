@@ -15,19 +15,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup({
 	"thomasskk/lualine-lsp-progress",
-	{
-		"folke/trouble.nvim",
-		dependencies = "kyazdani42/nvim-web-devicons",
-		config = true,
-		lazy = true,
-	},
 	"nvim-lua/plenary.nvim",
-	{
-		"David-Kunz/cmp-npm",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-	},
 	{
 		"rareitems/printer.nvim",
 		config = function()
@@ -87,16 +75,6 @@ require("lazy").setup({
 	"kyazdani42/nvim-web-devicons",
 	{ "neovim/nvim-lspconfig", lazy = true },
 	{
-		"bennypowers/nvim-regexplainer",
-		config = {
-			auto = true,
-		},
-		requires = {
-			"nvim-treesitter/nvim-treesitter",
-			"MunifTanjim/nui.nvim",
-		},
-	},
-	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		build = "make",
@@ -104,14 +82,19 @@ require("lazy").setup({
 			require("telescope").load_extension("fzf")
 		end,
 	},
-	"shortcuts/no-neck-pain.nvim",
+	{
+		"shortcuts/no-neck-pain.nvim",
+		config = {
+			toggleMapping = "<space>np",
+			buffers = {
+				right = {
+					enabled = false,
+				},
+			},
+		},
+	},
 	"nvim-telescope/telescope.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
-	{
-		"s1n7ax/nvim-window-picker",
-		config = true,
-		lazy = true,
-	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -131,24 +114,6 @@ require("lazy").setup({
 		ft = { "markdown" },
 	},
 	{
-		"ahmedkhalf/project.nvim",
-	},
-	{
-		"cshuaimin/ssr.nvim",
-		module = "ssr",
-		lazy = true,
-		config = {
-			min_width = 50,
-			min_height = 5,
-			keymaps = {
-				close = "q",
-				next_match = "n",
-				prev_match = "N",
-				replace_all = "<leader><cr>",
-			},
-		},
-	},
-	{
 		"ThePrimeagen/harpoon",
 		lazy = true,
 		config = function()
@@ -156,16 +121,6 @@ require("lazy").setup({
 		end,
 	},
 	"MunifTanjim/nui.nvim",
-	{
-		"jackMort/ChatGPT.nvim",
-		config = true,
-		requires = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-	},
-	"aduros/ai.vim",
 	{ "hrsh7th/vim-vsnip-integ" },
 	{ "hrsh7th/vim-vsnip" },
 	"hrsh7th/nvim-cmp",
@@ -196,26 +151,14 @@ require("lazy").setup({
 		"windwp/nvim-autopairs",
 		config = true,
 	},
-	{ "windwp/nvim-ts-autotag", lazy = true },
 	"nvim-lualine/lualine.nvim",
 	"folke/which-key.nvim",
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		config = true,
-		lazy = true,
-	},
-	{
-		"mrshmllow/document-color.nvim",
-		config = {
-			mode = "background",
-		},
-	},
-	"RRethy/vim-illuminate",
 	"kylechui/nvim-surround",
+	"windwp/nvim-spectre",
 	"lewis6991/gitsigns.nvim",
 	"onsails/lspkind.nvim",
-	"glepnir/dashboard-nvim",
 	"akinsho/toggleterm.nvim",
+	"eandrju/cellular-automaton.nvim",
 	"stevearc/dressing.nvim",
 	{
 		"princejoogie/dir-telescope.nvim",
@@ -228,9 +171,25 @@ require("lazy").setup({
 	"github/copilot.vim",
 	"nvim-telescope/telescope-file-browser.nvim",
 	"ziontee113/syntax-tree-surfer",
+	{ "petertriho/nvim-scrollbar", config = true },
 	{
-		"phaazon/hop.nvim",
-		lazy = true,
-		branch = "v2",
+		"thomasskk/git-conflict.nvim",
+		config = function()
+			require("git-conflict").setup({
+				default_mappings = true, -- disable buffer local mapping created by this plugin
+				default_commands = true, -- disable commands created by this plugin
+				disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+				highlights = { -- They must have background color, otherwise the default color will be used
+					incoming = "DiffText",
+					current = "DiffAdd",
+				},
+			})
+			vim.api.nvim_set_hl(0, "GitConflictIncoming", { background = "#25394B", bold = false })
+			vim.api.nvim_set_hl(0, "GitConflictCurrent", { background = "#25403B", bold = false })
+			vim.cmd([[
+					hi GitConflictIncomingLabel guibg=#2F628F
+					hi GitConflictCurrentLabel guibg=#2F7366
+			]])
+		end,
 	},
 })

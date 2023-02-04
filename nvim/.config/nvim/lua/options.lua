@@ -1,42 +1,72 @@
-vim.cmd([[
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-augroup END
-augroup wraptoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * set wrap | set number
-augroup END
-set termguicolors
-set hidden
-set clipboard=unnamedplus
-set mouse=a
-set scrolloff=10
-set noswapfile
-set splitright
-set nopreviewwindow
-set incsearch
-set ignorecase
-set smartcase
-set smartindent
-set tabstop=2
-set shiftwidth=2
-set linespace=5
-set completeopt=menu,menuone,noselect
-set autoread
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-set undofile
-]])
+local fn = vim.fn
+local opt = vim.opt
+local api = vim.api
 
-vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+opt.termguicolors = true
+opt.hidden = true
+opt.clipboard = { "unnamedplus" }
+opt.mouse = "a"
+opt.scrolloff = 10
+opt.swapfile = false
+opt.splitright = true
+opt.previewwindow = true
+opt.incsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.smartindent = true
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.linespace = 5
+opt.completeopt = { "menu", "menuone", "noselect" }
+opt.autoread = true
+opt.undofile = true
+opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+opt.list = true
+opt.listchars = { tab = "→ ", extends = "»", precedes = "«" }
 
--- disable diagnostic in .env files
-local group = vim.api.nvim_create_augroup("__env", { clear = true })
-vim.api.nvim_create_autocmd("BufEnter", {
+api.nvim_create_autocmd("BufEnter", {
 	pattern = ".env",
-	group = group,
 	callback = function(args)
 		vim.diagnostic.disable(args.buf)
+	end,
+})
+
+api.nvim_create_autocmd("BufEnter", {
+	command = "setlocal wrap",
+})
+
+api.nvim_create_autocmd("BufEnter", {
+	command = "set number | set rnu",
+})
+
+api.nvim_create_autocmd({ "BufReadPre" }, {
+	callback = function()
+		local ok, stats = pcall(vim.loop.fs_stat, api.nvim_buf_get_name(api.nvim_get_current_buf()))
+		local max_filesize = 150 * 1024 -- 100 KB
+		if ok and stats and stats.size > max_filesize then
+			vim.b.large_buf = true
+			vim.opt_local.foldmethod = "manual"
+			vim.opt_local.spell = false
+			local cmp = require("cmp")
+			cmp.setup({
+				completion = {
+					autocomplete = false,
+				},
+			})
+		else
+			vim.b.large_buf = false
+			local opts = { noremap = true, silent = true }
+			local keymap = vim.keymap.set
+			keymap("n", "<C-d>", "<C-d>zz", opts)
+			keymap("n", "<C-u>", "<C-u>zz", opts)
+		end
+	end,
+})
+
+api.nvim_create_autocmd("UIEnter", {
+	callback = function()
+		if fn.argc() == 0 and fn.line2byte("$") == -1 then
+			require("telescope.builtin").oldfiles()
+		end
 	end,
 })

@@ -1,8 +1,6 @@
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 
-require("cmp-npm").setup({})
-
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -25,10 +23,8 @@ cmp.setup({
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		{ name = "npm", keyword_length = 4 },
 		{ name = "vsnip" },
 		{ name = "path" },
-		{ name = "treesitter" },
 	}, {
 		{ name = "buffer" },
 	}),

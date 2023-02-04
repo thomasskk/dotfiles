@@ -22,18 +22,13 @@ local servers = {
 	"prismals",
 }
 
-for _, lsp in ipairs(servers) do
+for _, server in ipairs(servers) do
 	local opts = {
-
 		capabilities = capabilities,
-		on_attach = function(client, bufnr)
+		on_attach = function(_, bufnr)
 			local opts = {
 				silent = true,
 			}
-
-			if client.server_capabilities.colorProvider then
-				require("document-color").buf_attach(bufnr)
-			end
 
 			local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
@@ -47,7 +42,7 @@ for _, lsp in ipairs(servers) do
 		end,
 	}
 
-	if lsp == "sumneko_lua" then
+	if server == "sumneko_lua" then
 		opts.settings = {
 			Lua = {
 				diagnostics = { globals = { "vim" } },
@@ -55,10 +50,10 @@ for _, lsp in ipairs(servers) do
 		}
 	end
 
-	lspconfig[lsp].setup(opts)
+	lspconfig[server].setup(opts)
 end
 
-require("typescript").setup({
+local typescript_config = {
 	disable_commands = false, -- prevent the plugin from creating Vim commands
 	debug = false, -- enable debug logging for commands
 	server = { -- pass options to lspconfig's setup method
@@ -80,27 +75,37 @@ require("typescript").setup({
 			end
 		end,
 	},
-})
+}
 
-lspconfig.rust_analyzer.settings = {
-	["rust-analyzer"] = {
-		imports = {
-			granularity = {
-				group = "module",
-			},
-			prefix = "self",
+require("typescript").setup(typescript_config)
+
+local rust_analyzer_config = {
+	imports = {
+		granularity = {
+			group = "module",
 		},
-		cargo = {
-			buildScripts = {
-				enable = true,
-			},
-		},
-		diagnostics = { disabled = { "unresolved-proc-macro" } },
-		checkOnSave = {
-			command = "clippy",
+		prefix = "self",
+	},
+	cargo = {
+		buildScripts = {
+			enable = true,
 		},
 	},
+	diagnostics = { disabled = { "unresolved-proc-macro" } },
+	checkOnSave = {
+		command = "clippy",
+		allTargets = false,
+	},
 }
+
+if vim.fn.getcwd() == "/home/thomas/dev/os" then
+	rust_analyzer_config["cargo"] = { target = "thumbv7m-none-eabi" }
+end
+
+lspconfig.rust_analyzer.settings = {
+	["rust-analyzer"] = rust_analyzer_config,
+}
+
 lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs")
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")
 lspconfig.svelte.root_dir = lspconfig.util.root_pattern(".git")
