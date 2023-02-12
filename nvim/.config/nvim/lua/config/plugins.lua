@@ -161,7 +161,7 @@ require("lazy").setup({
 	"ziontee113/syntax-tree-surfer",
 	{ "petertriho/nvim-scrollbar", config = true },
 	{
-		dir = "~/dev/git-conflict.nvim",
+		dir = "thomasskk/git-conflict.nvim",
 		config = function()
 			require("git-conflict").setup({
 				default_mappings = true, -- disable buffer local mapping created by this plugin
