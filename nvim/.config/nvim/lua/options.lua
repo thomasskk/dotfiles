@@ -9,7 +9,7 @@ opt.mouse = "a"
 opt.scrolloff = 10
 opt.swapfile = false
 opt.splitright = true
-opt.previewwindow = true
+opt.previewwindow = false
 opt.incsearch = true
 opt.ignorecase = true
 opt.smartcase = true
@@ -21,8 +21,6 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 opt.autoread = true
 opt.undofile = true
 opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
-opt.list = true
-opt.listchars = { tab = "→ ", extends = "»", precedes = "«" }
 
 api.nvim_create_autocmd("BufEnter", {
 	pattern = ".env",
@@ -42,7 +40,7 @@ api.nvim_create_autocmd("BufEnter", {
 api.nvim_create_autocmd({ "BufReadPre" }, {
 	callback = function()
 		local ok, stats = pcall(vim.loop.fs_stat, api.nvim_buf_get_name(api.nvim_get_current_buf()))
-		local max_filesize = 150 * 1024 -- 100 KB
+		local max_filesize = 150 * 1024 -- 150 KB
 		if ok and stats and stats.size > max_filesize then
 			vim.b.large_buf = true
 			vim.opt_local.foldmethod = "manual"

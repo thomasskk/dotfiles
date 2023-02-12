@@ -1,18 +1,5 @@
 local lualine = require("lualine")
 
-local colors = {
-	bg = "#282828",
-	brown = "#403a37",
-	fg = "#bbc2cf",
-	green = "#5DB129",
-	orange = "#FC804E",
-	violet = "#B46EE0",
-	magenta = "#c678dd",
-	blue = "#00A3F2",
-	red = "#E15D67",
-	black = "#000000",
-}
-
 local conditions = {
 	buffer_not_empty = function()
 		return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
@@ -31,43 +18,10 @@ local config = {
 	options = {
 		component_separators = "",
 		section_separators = "",
-		theme = {
-			normal = { c = { fg = colors.fg, bg = colors.bg } },
-			inactive = { c = { fg = colors.fg, bg = colors.bg } },
-		},
+		theme = "kanagawa",
 	},
 	winbar = {
-		lualine_c = {
-			{
-				"lsp_progress",
-				colors = {
-					percentage = colors.white,
-					title = colors.white,
-					message = colors.white,
-					spinner = colors.white,
-					lsp_client_name = colors.white,
-					use = true,
-				},
-				separators = {
-					component = " ",
-					progress = " | ",
-				},
-				display_components = { "spinner", { "title", "percentage" } },
-				timer = { progress_enddelay = 100, spinner = 200, lsp_client_name_enddelay = 100 },
-				spinner_symbols = {
-					"⠋",
-					"⠙",
-					"⠹",
-					"⠸",
-					"⠼",
-					"⠴",
-					"⠦",
-					"⠧",
-					"⠇",
-					"⠏",
-				},
-			},
-		},
+		lualine_c = {},
 		lualine_b = {},
 		lualine_x = {
 			{
@@ -104,12 +58,10 @@ local config = {
 			{
 				"mode",
 				fmt = string.lower,
-				color = { bg = "#A99A85", fg = colors.bg },
 			},
 			{
 				"filesize",
 				cond = conditions.buffer_not_empty,
-				color = { bg = "#4F4743", fg = colors.white },
 			},
 			{
 				"branch",
@@ -119,11 +71,7 @@ local config = {
 			{
 				"diff",
 				symbols = { added = "+", modified = "~", removed = "-" },
-				diff_color = {
-					added = { fg = colors.green },
-					modified = { fg = colors.orange },
-					removed = { fg = colors.red },
-				},
+				diff_color = {},
 			},
 			{
 				"diagnostics",
@@ -134,7 +82,6 @@ local config = {
 					warn = "DiagnosticWarn", -- Changes diagnostics' warn color.
 					info = "DiagnosticInfo", -- Changes diagnostics' info color.
 				},
-				colored = true,
 			},
 			{
 				function()
@@ -144,13 +91,11 @@ local config = {
 
 			{
 				"searchcount",
-				color = { bg = "#4F4743", fg = colors.white },
 			},
 		},
 		lualine_x = {
 			{
 				"filetype",
-				color = { fg = colors.white },
 			},
 
 			{
@@ -164,7 +109,6 @@ local config = {
 			{
 				"o:encoding",
 				cond = conditions.hide_in_width,
-				color = { fg = colors.white },
 			},
 
 			{
@@ -177,26 +121,6 @@ local config = {
 			{
 				"fileformat",
 				icons_enabled = false,
-				color = { fg = colors.white },
-			},
-			{
-				function()
-					local buffers = 0
-					for b = 1, vim.fn.bufnr("$") do
-						if vim.fn.buflisted(b) ~= 0 and vim.api.nvim_buf_get_option(b, "buftype") ~= "quickfix" then
-							buffers = buffers + 1
-						end
-					end
-
-					return " " .. buffers
-				end,
-				color = { bg = "#4F4743", fg = colors.white },
-			},
-
-			{
-				"location",
-				fmt = string.lower,
-				color = { bg = "#A99A85", fg = colors.bg, gui = "bold" },
 			},
 		},
 	},
