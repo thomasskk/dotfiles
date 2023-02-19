@@ -1,7 +1,26 @@
 local telescope = require("telescope")
 
+local previewers = require("telescope.previewers")
+
+local new_maker = function(filepath, bufnr, opts)
+	opts = opts or {}
+
+	filepath = vim.fn.expand(filepath)
+	vim.loop.fs_stat(filepath, function(_, stat)
+		if not stat then
+			return
+		end
+		if stat.size > 100000 then
+			return
+		else
+			previewers.buffer_previewer_maker(filepath, bufnr, opts)
+		end
+	end)
+end
+
 telescope.setup({
 	defaults = {
+		buffer_previewer_maker = new_maker,
 		path_display = { "truncate", truncate = 5 },
 		wrap_results = true,
 		layout_config = {
@@ -15,13 +34,6 @@ telescope.setup({
 				["<C-h>"] = "which_key",
 			},
 		},
-	},
-	preview = {
-		filesize_hook = function(filepath, bufnr, opts)
-			local max_bytes = 10000
-			local cmd = { "head", "-c", max_bytes, filepath }
-			require("telescope.previewers.utils").job_maker(cmd, bufnr, opts)
-		end,
 	},
 	pickers = {
 		find_files = {

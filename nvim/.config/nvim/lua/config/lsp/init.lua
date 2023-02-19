@@ -14,7 +14,7 @@ local servers = {
 	"rust_analyzer",
 	"pyright",
 	"bashls",
-	"sumneko_lua",
+	"lua_ls",
 	"tailwindcss",
 	"gopls",
 	"svelte",
@@ -42,7 +42,7 @@ for _, server in ipairs(servers) do
 		end,
 	}
 
-	if server == "sumneko_lua" then
+	if server == "lua_ls" then
 		opts.settings = {
 			Lua = {
 				diagnostics = { globals = { "vim" } },

@@ -21,6 +21,7 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 opt.autoread = true
 opt.undofile = true
 opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+opt.updatetime = 250
 
 api.nvim_create_autocmd("BufEnter", {
 	pattern = ".env",

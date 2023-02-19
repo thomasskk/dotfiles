@@ -36,6 +36,15 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"tzachar/local-highlight.nvim",
+		config = function()
+			require("local-highlight").setup({
+				file_types = { "typescript", "typescriptreact" },
+				hlgroup = "CursorLine",
+			})
+		end,
+	},
+	{
 		"saecki/crates.nvim",
 		event = { "BufRead Cargo.toml" },
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -161,7 +170,7 @@ require("lazy").setup({
 	"ziontee113/syntax-tree-surfer",
 	{ "petertriho/nvim-scrollbar", config = true },
 	{
-		dir = "thomasskk/git-conflict.nvim",
+		"thomasskk/git-conflict.nvim",
 		config = function()
 			require("git-conflict").setup({
 				default_mappings = true, -- disable buffer local mapping created by this plugin
