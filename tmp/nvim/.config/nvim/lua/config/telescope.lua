@@ -2,10 +2,6 @@ local telescope = require("telescope")
 
 telescope.setup({
 	defaults = {
-		history = {
-			path = "~/.local/share/nvim/databases/telescope_history.sqlite3",
-			limit = 100,
-		},
 		path_display = { "truncate", truncate = 5 },
 		wrap_results = true,
 		layout_config = {
@@ -46,5 +42,16 @@ telescope.setup({
 			override_file_sorter = true, -- override the file sorter
 			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 		},
+		file_browser = {
+			cwd_to_path = true,
+			path = "%:p:h",
+			hijack_netrw = true,
+			mappings = {
+				["i"] = {},
+				["n"] = {},
+			},
+		},
 	},
 })
+
+telescope.load_extension("file_browser")

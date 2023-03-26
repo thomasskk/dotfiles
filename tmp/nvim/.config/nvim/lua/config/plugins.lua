@@ -17,20 +17,6 @@ require("lazy").setup({
 	"thomasskk/lualine-lsp-progress",
 	"nvim-lua/plenary.nvim",
 	{
-		"giusgad/pets.nvim",
-		dependencies = { "MunifTanjim/nui.nvim", "edluffy/hologram.nvim" },
-		config = true,
-	},
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "main",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
-	},
-	{
 		"rareitems/printer.nvim",
 		config = function()
 			require("printer").setup({
@@ -49,16 +35,6 @@ require("lazy").setup({
 			vim.keymap.set("n", "gP", "<Plug>(printer_print)iw")
 		end,
 	},
-	"kkharji/sqlite.lua",
-	{
-		"tzachar/local-highlight.nvim",
-		config = function()
-			require("local-highlight").setup({
-				file_types = { "typescript", "typescriptreact" },
-				hlgroup = "CursorLine",
-			})
-		end,
-	},
 	{
 		"saecki/crates.nvim",
 		event = { "BufRead Cargo.toml" },
@@ -67,27 +43,18 @@ require("lazy").setup({
 		ft = { "rust" },
 	},
 	{
-		"nvim-telescope/telescope-smart-history.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		config = function()
-			require("telescope").load_extension("smart_history")
-		end,
-	},
-	{
 		"rebelot/kanagawa.nvim",
 		name = "kanagawa",
 		lazy = false,
 		priority = 1000,
 		config = function()
 			require("kanagawa").setup({
-				overrides = function()
-					return {
-						DiagnosticUnderlineError = { undercurl = false, underline = true },
-						DiagnosticUnderlineWarn = { undercurl = false, underline = true },
-						DiagnosticUnderlineInfo = { undercurl = false, underline = true },
-						DiagnosticUnderlineHint = { undercurl = false, underline = true },
-					}
-				end,
+				overrides = {
+					DiagnosticUnderlineError = { undercurl = false, underline = true },
+					DiagnosticUnderlineWarn = { undercurl = false, underline = true },
+					DiagnosticUnderlineInfo = { undercurl = false, underline = true },
+					DiagnosticUnderlineHint = { undercurl = false, underline = true },
+				},
 			})
 			vim.cmd("colorscheme kanagawa")
 		end,
@@ -106,9 +73,7 @@ require("lazy").setup({
 	{
 		"shortcuts/no-neck-pain.nvim",
 		config = {
-			mappings = {
-				toggle = "<space>np",
-			},
+			toggleMapping = "<space>np",
 			buffers = {
 				right = {
 					enabled = false,
@@ -192,10 +157,11 @@ require("lazy").setup({
 		},
 	},
 	"github/copilot.vim",
+	"nvim-telescope/telescope-file-browser.nvim",
 	"ziontee113/syntax-tree-surfer",
 	{ "petertriho/nvim-scrollbar", config = true },
 	{
-		"thomasskk/git-conflict.nvim",
+		dir = "~/dev/git-conflict.nvim",
 		config = function()
 			require("git-conflict").setup({
 				default_mappings = true, -- disable buffer local mapping created by this plugin

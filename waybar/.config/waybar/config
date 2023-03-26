@@ -1,83 +1,167 @@
 {
-	"layer": "top", 
-		"position": "top", 
-		"modules-left": ["sway/workspaces"],
-		"modules-center": ["clock", "custom/weather"],
-		"modules-right": ["network", "backlight","bluetooth", "battery", "custom/memory",  "cpu", "pulseaudio","custom/lock", "tray"],
-		"network": {
-			"format-wifi": "WIFI {bandwidthDownOctets} | {bandwidthUpOctets} {icon}",
-			"format-ethernet": "ETH {bandwidthDownOctets} | {bandwidthUpOctets} {icon}",
-			"format-disconnected": "OFFLINE",
-			"interval": 3,
-		},
-		"backlight": {
-			"format": "BLU {percent}%",
-			"format-alt": "{percent}% {icon}",
-			"format-alt-click": "click-right",
-			"on-scroll-down": "light -U 1",
-			"on-scroll-up": "light -A 1"
-		},
-		"bluetooth": {
-			"format": "BT {status}",
-			"format-connected": "BT {num_connections}",
-			"format-connected-battery": "BT {num_connections} {device_battery_percentage}%",
-			"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-			"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-			"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-			"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-			"on-click": "bash ~/.config/waybar/modules/bluetooth"
-		},
-		"battery": {
-			"format": "BAT {capacity}%",
-			"format-charging": "BAT {capacity}% ʌ",
-			"format-alt": "{time} {icon}",
-			"interval": 30,
-		},
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    // "height": 36, // Waybar height (to be removed for auto height)
+    // Archived modules
+    // "custom/gpu", "bluetooth",  "custom/weather", "temperature", "sway/window"
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces",  "custom/screenshot", "custom/record", "custom/media"],
+    "modules-center": ["clock", "custom/weather"],
+    "modules-right": [ "custom/cpugovernor", "custom/cpu", "custom/gpu", "custom/memory", "pulseaudio", "bluetooth", "network", "tray"],
+    // Modules configuration
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "<span color=\"#D8DEE9\">1</span>",
+            "2": "<span color=\"#88C0D0\">2</span>",
+            "3": "<span color=\"#A3BE8C\">3</span>",
+            "4": "<span color=\"#D8DEE9\">4</span>",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/window": {
+        "format": "{}",
+        "max-length": 50, 
+        "tooltip": false
+    },
 		"custom/memory": {
-			"interval": 5,
-			"format": "MEM {}",
-			"on-click": "kitty -e htop --sort-key PERCENT_MEM",
-			"exec": "bash ~/.config/waybar/modules/memory"
+			"interval": 1,
+      "exec": "$HOME/.config/waybar/modules/memory.sh",
+      "return-type": "json",
+			"format": " {}",
+			"on-click": "kitty --class btop -e btop --sort-key PERCENT_MEM",
 		},
-		"temperature": {
-			"hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
-			"critical-threshold": 80,
-			"format-critical": "TMP! {temperatureC}°",
-			"format": "TMP {temperatureC}°",
-			"interval": 10,
-		},
-		"cpu": {
-			"interval": "1",
-			"format": "CPU {usage}%",
-			"on-click": "kitty -e htop --sort-key PERCENT_CPU"
-		},
-		"pulseaudio": {
-			"scroll-step": 5, 
-			"format": "SND {volume}%",
-			"on-click": "pavucontrol"
-		},
-		"tray": {
-			"icon-size": 16,
-			"spacing": 10
-		},
-		"sway/workspaces": {
-			"disable-scroll": true,
-			"all-outputs": true,
-			"format": "{}"
-		},
-		"clock": {
-			"format": "{:%H:%M  %e %b}",
-			"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-			"format-alt": "{:%Y-%m-%d}"
-		},
-		"custom/weather": {
-			"exec": "curl 'https://api.open-meteo.com/v1/forecast?latitude=43.67&longitude=4.06&current_weather=true' | jq '.current_weather.temperature'",
-			"interval": 1000,
-			"format": "{} °C"
-		},
-		"custom/lock": {
-			"format": "LCK", 
-			"on-click" : "swaylock -i ~/nord.jpeg -F" 
-		}
-
+    "bluetooth": {
+        "interval": 30,
+        "format": "{device_battery_percentage}% {icon}",
+        // "format-alt": "{status}",
+        "format-icons": {
+            "enabled": "",
+            "disabled": ""
+        },
+        "on-click": "blueberry"
+    },    
+    "sway/language": {
+        "format": "<big></big> {}",
+        "max-length": 5,
+        "min-length": 5,        
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip": "true"
+    },
+    "tray": {
+        //"icon-size": 11,
+        "spacing": 5
+    },
+    "clock": {
+        "format": "  {:%H:%M   %e %b}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "today-format": "<b>{}</b>",
+        "on-click": "gnome-calendar"
+    },
+    "custom/cpu": {
+				"interval": 2,
+      	"exec": "$HOME/.config/waybar/modules/cpu.sh",
+     		"return-type": "json",
+				"format": "  {}",
+        "max-length": 20,
+        "min-length": 20,
+        "on-click": "kitty --class btop -e btop",
+    },
+    "network": {
+        // "interface": "wlan0", // (Optional) To force the use of this interface,
+        "format-wifi": "  {essid}",
+        "format-ethernet": "{ifname} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "family": "ipv4",
+        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
+        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}"
+    },
+    "pulseaudio": {
+        "scroll-step": 3, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+    },
+    "custom/screenshot": {
+			"format": "",
+      "on-click": "$HOME/.config/waybar/modules/screenshot.sh",
+    },
+    "custom/record": {
+			"interval": 1,
+			"format": "{}",
+      "return-type": "json",
+			"exec": "$HOME/.config/waybar/modules/is_recording.sh",
+      "on-click": "$HOME/.config/waybar/modules/record.sh",
+    },
+    "custom/weather": {
+			"format": "{}",
+			"tooltip": true,
+			"interval": 900,
+      "exec": "$HOME/.config/waybar/modules/weather.py",
+			"on-click": "xdg-open https://wttr.in/montpellier",
+			"return-type": "json"
+    },
+    "custom/gpu": {
+      "exec": "$HOME/.config/waybar/modules/custom-gpu.sh",
+      "return-type": "json",
+      "format": " {}",
+      "interval": 2,
+      "tooltip": "{tooltip}",
+      "max-length": 19,
+      "min-length": 19,
+      "on-click": "powerupp"
+      
+    }, 
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "chromium": "",
+            "default": ""
+        },
+        "escape": true,
+				"on-click": "swaymsg '[class=Deezer]' focus",
+        "exec": "$HOME/.config/waybar/modules/mediaplayer.py 2> /dev/null",
+				"exec-if": "swaymsg -t get_tree | grep deezer"
+    },
+    "custom/scratchpad-indicator": {
+        "interval": 3,
+        "return-type": "json",
+        "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '( select(.name == \"root\") | .nodes[] | select(.name == \"__i3\") | .nodes[] | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") }'",
+        "format": "{} 􏠜",
+        "on-click": "exec swaymsg 'scratchpad show'",
+        "on-click-right": "exec swaymsg 'move scratchpad'"
+    }    
 }

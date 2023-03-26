@@ -71,7 +71,6 @@ function Resume {
 zle -N Resume
 bindkey "^Z" Resume
 
-
 # other
 setopt PROMPT_CR
 setopt PROMPT_SP
@@ -79,6 +78,9 @@ export PROMPT_EOL_MARK=""
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# z plugin
+. $HOME/z.sh
 
 auto-switch-node-version() {
 	NVMRC_PATH=$(nvm_find_nvmrc)
@@ -92,8 +94,6 @@ auto-switch-node-version() {
 
 		# Find an installed Node version that satisfies the .nvmrc
 		MATCHED_NODE_VERSION=$(nvm_match_version $REQUESTED_NODE_VERSION)
-
-		echo "$REQUESTED_NODE_VERSION"
 
 		if [[ ! -z "$MATCHED_NODE_VERSION" && $MATCHED_NODE_VERSION != "N/A" ]]; then
 			# A suitable version is already installed.
@@ -144,13 +144,10 @@ auto-switch-node-version() {
 	fi
 }
 
+# Run the above function in ZSH whenever you change directory
 autoload -U add-zsh-hook
 add-zsh-hook chpwd auto-switch-node-version
 auto-switch-node-version
-
-# z plugin
-. $HOME/z.sh
-
 # starship prompt
 eval "$(starship init zsh)"
 
@@ -158,3 +155,10 @@ eval "$(starship init zsh)"
 export PNPM_HOME="/home/thomas/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+# bun completions
+[ -s "/home/thomas/.bun/_bun" ] && source "/home/thomas/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
