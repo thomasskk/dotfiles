@@ -44,3 +44,15 @@ keymap("n", "<leader>ha", function()
 end)
 
 keymap("n", "<leader>hh", ":Telescope harpoon marks<CR>")
+
+keymap("n", "J", "6j")
+keymap("n", "K", "6k")
+keymap("n", "H", "0^")
+keymap("n", "L", "$")
+
+keymap("n", "M", "J")
+keymap("n", "<leader>h", "K")
+
+keymap("n", "<leader>m", function()
+	require("telescope").extensions.monorepo.monorepo()
+end)

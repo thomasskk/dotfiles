@@ -6,7 +6,7 @@ opt.termguicolors = true
 opt.hidden = true
 opt.clipboard = { "unnamedplus" }
 opt.mouse = "a"
-opt.scrolloff = 10
+opt.scrolloff = 15
 opt.swapfile = false
 opt.splitright = true
 opt.previewwindow = false
@@ -23,6 +23,7 @@ opt.undofile = true
 opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
 opt.updatetime = 250
 opt.laststatus = 3
+vim.g.copilot_node_command = "/home/thomas/.local/share/fnm/node-versions/v18.15.0/installation/bin/node"
 
 api.nvim_create_autocmd("BufEnter", {
 	pattern = ".env",

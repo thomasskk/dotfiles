@@ -17,6 +17,19 @@ require("lazy").setup({
 	"thomasskk/lualine-lsp-progress",
 	"nvim-lua/plenary.nvim",
 	{
+		"imNel/monorepo.nvim",
+		config = function()
+			require("monorepo").setup({
+				-- Your config here!
+			})
+		end,
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	},
+	{
+		"AckslD/muren.nvim",
+		config = true,
+	},
+	{
 		"giusgad/pets.nvim",
 		dependencies = { "MunifTanjim/nui.nvim", "edluffy/hologram.nvim" },
 		config = true,
@@ -29,6 +42,24 @@ require("lazy").setup({
 			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
 			"MunifTanjim/nui.nvim",
 		},
+	},
+	{
+		"ThePrimeagen/refactoring.nvim",
+		requires = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+	},
+	{
+		dir = "/home/thomas/tsc.nvim",
+		config = function()
+			require("tsc").setup()
+		end,
+	},
+	{
+		"Fildo7525/pretty_hover",
+		event = "LspAttach",
+		opts = {},
 	},
 	{
 		"rareitems/printer.nvim",
@@ -94,7 +125,7 @@ require("lazy").setup({
 	},
 	"yioneko/nvim-type-fmt",
 	"kyazdani42/nvim-web-devicons",
-	{ "neovim/nvim-lspconfig", lazy = true },
+	{ "neovim/nvim-lspconfig",  lazy = true },
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
@@ -157,7 +188,6 @@ require("lazy").setup({
 	{
 		"numToStr/Comment.nvim",
 		config = true,
-		lazy = true,
 	},
 	{
 		"williamboman/mason.nvim",
@@ -201,7 +231,8 @@ require("lazy").setup({
 				default_mappings = true, -- disable buffer local mapping created by this plugin
 				default_commands = true, -- disable commands created by this plugin
 				disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
-				highlights = { -- They must have background color, otherwise the default color will be used
+				highlights = {
+					-- They must have background color, otherwise the default color will be used
 					incoming = "DiffText",
 					current = "DiffAdd",
 				},
