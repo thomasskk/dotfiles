@@ -140,8 +140,8 @@
       "tooltip": "{tooltip}",
       "max-length": 19,
       "min-length": 19,
-      "on-click": "powerupp"
-      
+      "on-click": "powerupp",
+			"exec-if": "cat /sys/class/drm/card0/device/pp_dpm_sclk"
     }, 
     "custom/media": {
         "format": "{icon} {}",

@@ -30,9 +30,35 @@ require("lazy").setup({
 		config = true,
 	},
 	{
-		"giusgad/pets.nvim",
-		dependencies = { "MunifTanjim/nui.nvim", "edluffy/hologram.nvim" },
-		config = true,
+		"jake-stewart/jfind.nvim",
+		keys = {
+			{ "<c-f>" },
+		},
+		config = function()
+			require("jfind").setup({
+				exclude = {
+					".git",
+					".idea",
+					".vscode",
+					".sass-cache",
+					".class",
+					"__pycache__",
+					"node_modules",
+					"target",
+					"build",
+					"tmp",
+					"assets",
+					"dist",
+					"public",
+					"*.iml",
+					"*.meta",
+				},
+				border = "rounded",
+				tmux = true,
+				formatPaths = true,
+				key = "<c-f>",
+			})
+		end,
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -41,13 +67,6 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
 			"MunifTanjim/nui.nvim",
-		},
-	},
-	{
-		"ThePrimeagen/refactoring.nvim",
-		requires = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
 		},
 	},
 	{
@@ -123,7 +142,6 @@ require("lazy").setup({
 			vim.cmd("colorscheme kanagawa")
 		end,
 	},
-	"yioneko/nvim-type-fmt",
 	"kyazdani42/nvim-web-devicons",
 	{ "neovim/nvim-lspconfig",  lazy = true },
 	{
@@ -243,6 +261,12 @@ require("lazy").setup({
 					hi GitConflictIncomingLabel guibg=#2F628F
 					hi GitConflictCurrentLabel guibg=#2F7366
 			]])
+		end,
+	},
+	{
+		"axkirillov/hbac.nvim",
+		config = function()
+			require("hbac").setup()
 		end,
 	},
 })

@@ -30,9 +30,8 @@ echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl --system
 
 # node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-source ~/.nvm/nvm.sh
-nvm install --lts
+curl -fsSL https://fnm.vercel.app/install | bash
+/usr/bin/fnm install --lts
 
 # npm.list
 xargs -a ~/npm.list sudo npm i --location=global
