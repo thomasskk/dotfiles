@@ -35,10 +35,6 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- Prevent copy on paste
 keymap("v", "p", '"_dP', opts)
 
-keymap({ "n", "x" }, "<leader>sr", function()
-	require("ssr").open()
-end)
-
 keymap("n", "<leader>ha", function()
 	require("harpoon.mark").add_file()
 end)
@@ -56,3 +52,7 @@ keymap("n", "<leader>h", "K")
 keymap("n", "<leader>m", function()
 	require("telescope").extensions.monorepo.monorepo()
 end)
+
+keymap("n", "<leader>rn", function()
+	return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })

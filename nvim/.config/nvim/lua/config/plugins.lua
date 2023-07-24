@@ -143,7 +143,8 @@ require("lazy").setup({
 		end,
 	},
 	"kyazdani42/nvim-web-devicons",
-	{ "neovim/nvim-lspconfig",  lazy = true },
+	{ "neovim/nvim-lspconfig",   lazy = true },
+	{ "smjonas/inc-rename.nvim", config = true },
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
@@ -266,7 +267,9 @@ require("lazy").setup({
 	{
 		"axkirillov/hbac.nvim",
 		config = function()
-			require("hbac").setup()
+			require("hbac").setup({
+				treshold = 20,
+			})
 		end,
 	},
 })
