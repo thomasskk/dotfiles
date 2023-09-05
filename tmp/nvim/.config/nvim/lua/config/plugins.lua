@@ -42,23 +42,6 @@ require("lazy").setup({
 		config = true,
 		ft = { "rust" },
 	},
-	{
-		"rebelot/kanagawa.nvim",
-		name = "kanagawa",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("kanagawa").setup({
-				overrides = {
-					DiagnosticUnderlineError = { undercurl = false, underline = true },
-					DiagnosticUnderlineWarn = { undercurl = false, underline = true },
-					DiagnosticUnderlineInfo = { undercurl = false, underline = true },
-					DiagnosticUnderlineHint = { undercurl = false, underline = true },
-				},
-			})
-			vim.cmd("colorscheme kanagawa")
-		end,
-	},
 	"kyazdani42/nvim-web-devicons",
 	{ "neovim/nvim-lspconfig",  lazy = true },
 	{
@@ -154,6 +137,7 @@ require("lazy").setup({
 			respect_gitignore = true,
 		},
 	},
+	{ "rose-pine/neovim", name = "rose-pine" },
 	"github/copilot.vim",
 	"nvim-telescope/telescope-file-browser.nvim",
 	"ziontee113/syntax-tree-surfer",

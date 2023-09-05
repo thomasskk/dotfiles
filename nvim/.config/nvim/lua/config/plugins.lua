@@ -30,6 +30,12 @@ require("lazy").setup({
 		config = true,
 	},
 	{
+		"ivanjermakov/troublesum.nvim",
+		config = function()
+			require("troublesum").setup()
+		end,
+	},
+	{
 		"jake-stewart/jfind.nvim",
 		keys = {
 			{ "<c-f>" },
@@ -60,20 +66,21 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "main",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
-	},
+	"tpope/vim-fugitive",
 	{
 		dir = "/home/thomas/tsc.nvim",
 		config = function()
 			require("tsc").setup()
 		end,
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "main",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"kyazdani42/nvim-web-devicons",
+			"MunifTanjim/nui.nvim",
+		},
 	},
 	{
 		"Fildo7525/pretty_hover",
@@ -145,6 +152,7 @@ require("lazy").setup({
 	"kyazdani42/nvim-web-devicons",
 	{ "neovim/nvim-lspconfig",   lazy = true },
 	{ "smjonas/inc-rename.nvim", config = true },
+	{ "junegunn/fzf.vim",        dependencies = { "junegunn/fzf" } },
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
@@ -227,7 +235,7 @@ require("lazy").setup({
 	"folke/which-key.nvim",
 	"kylechui/nvim-surround",
 	"windwp/nvim-spectre",
-	"lewis6991/gitsigns.nvim",
+	{ "lewis6991/gitsigns.nvim", commmit = "55f8fc7b13205d44359080ed00095674c353bd76" },
 	"onsails/lspkind.nvim",
 	"akinsho/toggleterm.nvim",
 	"eandrju/cellular-automaton.nvim",

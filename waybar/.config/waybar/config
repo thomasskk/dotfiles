@@ -5,7 +5,7 @@
     // Archived modules
     // "custom/gpu", "bluetooth",  "custom/weather", "temperature", "sway/window"
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces",  "custom/screenshot", "custom/record", "custom/media"],
+    "modules-left": ["sway/workspaces",  "custom/screenshot", "custom/record", "custom/media", "custom/control-r"],
     "modules-center": ["clock", "custom/weather"],
     "modules-right": [ "custom/cpugovernor", "custom/cpu", "custom/gpu", "custom/memory", "pulseaudio", "bluetooth", "network", "tray"],
     // Modules configuration
@@ -123,6 +123,12 @@
       "return-type": "json",
 			"exec": "$HOME/.config/waybar/modules/is_recording.sh",
       "on-click": "$HOME/.config/waybar/modules/record.sh",
+    },
+    "custom/control-r": {
+			"interval": 1,
+			"format": ">",
+      "return-type": "json",
+      "on-click": "playerctl next",
     },
     "custom/weather": {
 			"format": "{}",
