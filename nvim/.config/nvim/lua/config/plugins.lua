@@ -66,6 +66,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+	"mfussenegger/nvim-lint",
 	"tpope/vim-fugitive",
 	{
 		dir = "/home/thomas/tsc.nvim",
@@ -150,9 +151,9 @@ require("lazy").setup({
 		end,
 	},
 	"kyazdani42/nvim-web-devicons",
-	{ "neovim/nvim-lspconfig",   lazy = true },
+	{ "neovim/nvim-lspconfig", lazy = true },
 	{ "smjonas/inc-rename.nvim", config = true },
-	{ "junegunn/fzf.vim",        dependencies = { "junegunn/fzf" } },
+	{ "junegunn/fzf.vim", dependencies = { "junegunn/fzf" } },
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
@@ -175,7 +176,10 @@ require("lazy").setup({
 		},
 	},
 	"nvim-telescope/telescope.nvim",
-	"jose-elias-alvarez/null-ls.nvim",
+	{
+		"stevearc/conform.nvim",
+		opts = {},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",

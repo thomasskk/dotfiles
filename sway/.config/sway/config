@@ -287,5 +287,7 @@ exec sway-audio-idle-inhibit
 exec_always mako
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec copyq 
+exec eval $(gnome-keyring-daemon --start)
+exec export SSH_AUTH_SOCK
 
 include @sysconfdir@/sway/config.d/*

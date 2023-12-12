@@ -1,6 +1,7 @@
 require("config.plugins")
 require("config.cmp")
-require("config.null-ls")
+require("config.format")
+require("config.lint")
 require("config.lsp.init")
 require("config.treesitter")
 require("config.telescope")

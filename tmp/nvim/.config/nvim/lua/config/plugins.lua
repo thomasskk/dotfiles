@@ -64,7 +64,6 @@ require("lazy").setup({
 		},
 	},
 	"nvim-telescope/telescope.nvim",
-	"jose-elias-alvarez/null-ls.nvim",
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",

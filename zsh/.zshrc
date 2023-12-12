@@ -11,6 +11,7 @@ export PATH=$PATH:$HOME/.cargo/bin
 
 source $HOME/.cargo/env 2>/dev/null
 
+export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
 zstyle ':omz:update' mode reminder # just remind me to update when it's time
 zstyle ':omz:update' frequency 13
 
