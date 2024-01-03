@@ -1,6 +1,7 @@
 local fn = vim.fn
 local opt = vim.opt
 local api = vim.api
+local auto_cmd = vim.api.nvim_create_autocmd
 
 opt.termguicolors = true
 opt.hidden = true
@@ -25,22 +26,15 @@ opt.updatetime = 250
 opt.laststatus = 3
 vim.g.copilot_node_command = "/home/thomas/.local/share/fnm/node-versions/v18.15.0/installation/bin/node"
 
-api.nvim_create_autocmd("BufEnter", {
-	pattern = ".env",
-	callback = function(args)
-		vim.diagnostic.disable(args.buf)
-	end,
-})
-
-api.nvim_create_autocmd("BufEnter", {
+auto_cmd("BufEnter", {
 	command = "setlocal wrap",
 })
 
-api.nvim_create_autocmd("BufEnter", {
+auto_cmd("BufEnter", {
 	command = "set number | set rnu",
 })
 
-api.nvim_create_autocmd({ "BufReadPre" }, {
+auto_cmd({ "BufReadPre" }, {
 	callback = function()
 		local ok, stats = pcall(vim.loop.fs_stat, api.nvim_buf_get_name(api.nvim_get_current_buf()))
 		local max_filesize = 150 * 1024 -- 150 KB
@@ -64,10 +58,17 @@ api.nvim_create_autocmd({ "BufReadPre" }, {
 	end,
 })
 
-api.nvim_create_autocmd("UIEnter", {
+auto_cmd("UIEnter", {
 	callback = function()
 		if fn.argc() == 0 and fn.line2byte("$") == -1 then
 			require("telescope.builtin").oldfiles()
 		end
+	end,
+})
+
+auto_cmd({ "FocusGained", "BufEnter" }, {
+	pattern = { "*.*" },
+	callback = function()
+		vim.cmd([[checktime]])
 	end,
 })

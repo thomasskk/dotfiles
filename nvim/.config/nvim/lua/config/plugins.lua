@@ -69,12 +69,6 @@ require("lazy").setup({
 	"mfussenegger/nvim-lint",
 	"tpope/vim-fugitive",
 	{
-		dir = "/home/thomas/tsc.nvim",
-		config = function()
-			require("tsc").setup()
-		end,
-	},
-	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "main",
 		requires = {

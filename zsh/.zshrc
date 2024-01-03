@@ -44,6 +44,7 @@ function acp() {
 	git commit -m "$1"
 	git push
 }
+
 alias vi='nvim'
 alias vim='nvim'
 alias v='nvim'

@@ -55,7 +55,7 @@ end
 
 local typescript_config = {
 	disable_commands = false, -- prevent the plugin from creating Vim commands
-	debug = false,           -- enable debug logging for commands
+	debug = false, -- enable debug logging for commands
 	server = {
 		-- pass options to lspconfig's setup method
 		init_options = {
@@ -122,13 +122,13 @@ vim.diagnostic.config({
 
 local border = {
 	{ "🭽", "FloatBorder" },
-	{ "▔",  "FloatBorder" },
+	{ "▔", "FloatBorder" },
 	{ "🭾", "FloatBorder" },
-	{ "▕",  "FloatBorder" },
+	{ "▕", "FloatBorder" },
 	{ "🭿", "FloatBorder" },
-	{ "▁",  "FloatBorder" },
+	{ "▁", "FloatBorder" },
 	{ "🭼", "FloatBorder" },
-	{ "▏",  "FloatBorder" },
+	{ "▏", "FloatBorder" },
 }
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview

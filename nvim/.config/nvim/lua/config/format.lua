@@ -10,6 +10,7 @@ require("conform").setup({
 		typescriptreact = { "prettierd" },
 		css = { "prettierd" },
 		svelte = { "prettierd" },
+		sveltekit = { "prettierd" },
 		scss = { "prettierd" },
 		html = { "prettierd" },
 		json = { "prettierd" },

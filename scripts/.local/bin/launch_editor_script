@@ -1,0 +1,8 @@
+#!/bin/bash
+filename=$1
+line=${2:-"1"}
+column=${3:-"1"}
+command="<C-\\><C-N>:vsplit $filename<CR>:call cursor($line,$column)<CR>"
+instances=($XDG_RUNTIME_DIR/nvim.*.0)
+
+nvim --server ${instances[0]} --remote-send "$command" || true

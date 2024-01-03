@@ -33,15 +33,13 @@ for_window [class="feh"] floating enable
 # Example configuration:
 #
 
-output DP-4 pos 1920 0 resolution 1920x1080@144Hz
-output DP-2 pos 0 0 resolution 1920x1080@144Hz
+output DP-2 pos 1920 0 resolution 1920x1080@144Hz
+output HDMI-A-1 pos 0 0 resolution 1920x1080@144Hz
 
-workspace 6 output eDP-1 
-workspace 5 output eDP-1 
-workspace 3 output DP-4
-workspace 4 output DP-4
-workspace 1 output DP-2 
-workspace 2 output DP-2 
+workspace 3 output DP-2
+workspace 4 output DP-2
+workspace 1 output HDMI-A-1
+workspace 2 output HDMI-A-1
 
 
 
@@ -96,7 +94,7 @@ input type:pointer {
 }
 
 client.background n/a #434c5e n/a
-client.focused #506EAB #506EAB #506EAB #506EAB 
+client.focused #506EAB #506EAB #506EAB #506EAB
 client.focused_inactive #3b4252 #3b4252 #eceff4 #3b4252 #3b4252
 client.unfocused #3b4252 #3b4252 #eceff4 #3b4252 #3b4252
 client.urgent #4C566A #434c5e #eceff4 #434c5e #434c5e
@@ -223,7 +221,7 @@ bindsym $mod+a focus parent
 
 # Move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+Shift+plus move workspace 
+bindsym $mod+Shift+plus move workspace
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
@@ -268,7 +266,7 @@ bar {
 for_window [app_id="org.keepassxc.KeePassXC"] floating enable
 for_window [class="Deezer"] floating enable
 for_window [class="Deezer"] resize set 1500 900
-for_window [app_id="btop"] floating enable 
+for_window [app_id="btop"] floating enable
 for_window [app_id="btop"] resize set 1500 900
 for_window [class="KeePassXC"] floating enable
 for_window [class="GitKraken"] floating enable
@@ -278,15 +276,15 @@ for_window [app_id="nemo"] resize set 1500 900
 for_window [app_id="gnome-control-center"] floating enable
 for_window [app_id="blueberry.py"] floating enable
 for_window [class="Steam"] floating enable
-for_window [class="steam_app*"] inhibit_idle focus  
+for_window [class="steam_app*"] inhibit_idle focus
 
 # tap-to-click and natural scrolling for all touchpads
 
-exec redshift -m wayland 
+exec redshift -m wayland
 exec sway-audio-idle-inhibit
 exec_always mako
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec copyq 
+exec copyq
 exec eval $(gnome-keyring-daemon --start)
 exec export SSH_AUTH_SOCK
 
