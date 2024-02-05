@@ -39,6 +39,10 @@ for _, server in ipairs(servers) do
 			buf_set_keymap(bufnr, "n", "gi", "<cmd>Telescope lsp_implementations()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 			buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+
+			if server == "svelte" then
+				buf_set_keymap(bufnr, "n", "gia", ":SvelteAddMissingImports<CR>", opts)
+			end
 		end,
 	}
 
@@ -53,59 +57,19 @@ for _, server in ipairs(servers) do
 	lspconfig[server].setup(opts)
 end
 
-local typescript_config = {
-	disable_commands = false, -- prevent the plugin from creating Vim commands
-	debug = false, -- enable debug logging for commands
-	server = {
-		-- pass options to lspconfig's setup method
-		init_options = {
-			maxTsServerMemory = 8192,
-		},
-		on_attach = function(client)
-			if client.name == "tsserver" then
-				local set_keymap = vim.api.nvim_set_keymap
+require("typescript-tools").setup({
+	on_attach = function(_, bufnr)
+		local opts = {
+			silent = true,
+		}
 
-				local opts = {
-					silent = true,
-				}
+		local buf_set_keymap = vim.api.nvim_buf_set_keymap
 
-				set_keymap("n", "go", ":TypescriptOrganizeImports<CR>", opts)
-				set_keymap("n", "gs", ":TypescriptRemoveUnused<CR>", opts)
-				set_keymap("n", "gr", ":TypescriptRenameFile<CR>", opts)
-				set_keymap("n", "gia", ":TypescriptAddMissingImports<CR>", opts)
-			end
-		end,
-	},
-}
-
-require("typescript").setup(typescript_config)
-
-local rust_analyzer_config = {
-	imports = {
-		granularity = {
-			group = "module",
-		},
-		prefix = "self",
-	},
-	cargo = {
-		buildScripts = {
-			enable = true,
-		},
-	},
-	diagnostics = { disabled = { "unresolved-proc-macro" } },
-	checkOnSave = {
-		command = "clippy",
-		allTargets = false,
-	},
-}
-
-if vim.fn.getcwd() == "/home/thomas/dev/os" then
-	rust_analyzer_config["cargo"] = { target = "thumbv7m-none-eabi" }
-end
-
-lspconfig.rust_analyzer.settings = {
-	["rust-analyzer"] = rust_analyzer_config,
-}
+		buf_set_keymap(bufnr, "n", "go", ":TSToolsOrganizeImports<CR>", opts)
+		buf_set_keymap(bufnr, "n", "gs", ":TSToolsRemoveUnusedImports<CR>", opts)
+		buf_set_keymap(bufnr, "n", "gia", ":TSToolsAddMissingImports<CR>", opts)
+	end,
+})
 
 lspconfig.tailwindcss.root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.cjs")
 lspconfig.gopls.root_dir = lspconfig.util.root_pattern(".git")

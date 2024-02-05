@@ -41,19 +41,19 @@ telescope.setup({
 	},
 	extensions = {
 		fzf = {
-			fuzzy = true,                -- false will only do exact matching
+			fuzzy = true, -- false will only do exact matching
 			override_generic_sorter = true, -- override the generic sorter
 			override_file_sorter = true, -- override the file sorter
-			case_mode = "smart_case",    -- or "ignore_case" or "respect_case"
+			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 		},
 		ast_grep = {
 			command = {
 				"sg",
 				"--json=stream",
 				"-p",
-			},                    -- must have --json and -p
+			}, -- must have --json and -p
 			grep_open_files = false, -- search in opened files
-			lang = nil,           -- string value, specify language for ast-grep `nil` for default
+			lang = nil, -- string value, specify language for ast-grep `nil` for default
 		},
 	},
 })

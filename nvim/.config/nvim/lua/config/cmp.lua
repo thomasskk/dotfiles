@@ -1,5 +1,4 @@
 local cmp = require("cmp")
-local lspkind = require("lspkind")
 
 cmp.setup({
 	snippet = {
@@ -12,7 +11,10 @@ cmp.setup({
 		-- completion = cmp.config.window.bordered(),
 	},
 	formatting = {
-		format = lspkind.cmp_format(),
+		format = require("lspkind").cmp_format({
+			before = require("tailwindcss-colorizer-cmp").formatter,
+			mode = "symbol_text",
+		}),
 	},
 	mapping = cmp.mapping.preset.insert({
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -22,7 +24,7 @@ cmp.setup({
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp", trigger_characters = { "-" } },
 		{ name = "vsnip" },
 		{ name = "path" },
 	}, {
@@ -44,14 +46,6 @@ cmp.setup.cmdline(":", {
 	}, {
 		{ name = "cmdline" },
 	}),
-})
-
-vim.api.nvim_create_autocmd("BufRead", {
-	group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
-	pattern = "Cargo.toml",
-	callback = function()
-		cmp.setup.buffer({ sources = { { name = "crates" } } })
-	end,
 })
 
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")

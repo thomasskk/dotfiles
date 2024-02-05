@@ -28,7 +28,7 @@
     },
     "sway/window": {
         "format": "{}",
-        "max-length": 50, 
+        "max-length": 50,
         "tooltip": false
     },
 		"custom/memory": {
@@ -47,11 +47,11 @@
             "disabled": ""
         },
         "on-click": "blueberry"
-    },    
+    },
     "sway/language": {
         "format": "<big></big> {}",
         "max-length": 5,
-        "min-length": 5,        
+        "min-length": 5,
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -148,7 +148,7 @@
       "min-length": 19,
       "on-click": "powerupp",
 			"exec-if": "cat /sys/class/drm/card0/device/pp_dpm_sclk"
-    }, 
+    },
     "custom/media": {
         "format": "{icon} {}",
         "return-type": "json",
@@ -169,5 +169,5 @@
         "format": "{} 􏠜",
         "on-click": "exec swaymsg 'scratchpad show'",
         "on-click-right": "exec swaymsg 'move scratchpad'"
-    }    
+    }
 }

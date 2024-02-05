@@ -9,6 +9,7 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
 . ${HOME}/.env
 
+export TERM=wezterm
 source $HOME/.cargo/env 2>/dev/null
 
 export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
