@@ -72,3 +72,9 @@ auto_cmd({ "FocusGained", "BufEnter" }, {
 		vim.cmd([[checktime]])
 	end,
 })
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	callback = function()
+		require("lint").try_lint()
+	end,
+})

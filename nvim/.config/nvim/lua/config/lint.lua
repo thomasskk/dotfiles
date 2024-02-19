@@ -1,4 +1,5 @@
-require("lint").linters_by_ft = {
+local lint = require("lint")
+lint.linters_by_ft = {
 	markdown = { "vale" },
 	slq = { "sqlfluff" },
 	c = { "cppcheck" },
@@ -13,5 +14,5 @@ require("lint").linters_by_ft = {
 	yaml = { "yamllint" },
 }
 
-local luacheck = require("lint").linters.luacheck
-luacheck.args = { "--globals", "vim" }
+local linters = lint.linters
+linters.luacheck.args = { "--globals", "vim" }

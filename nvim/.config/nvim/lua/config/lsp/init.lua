@@ -18,14 +18,14 @@ local servers = {
 	"tailwindcss",
 	"gopls",
 	"svelte",
-	"sqlls",
 	"prismals",
+	"sqls",
 }
 
 for _, server in ipairs(servers) do
 	local opts = {
 		capabilities = capabilities,
-		on_attach = function(_, bufnr)
+		on_attach = function(client, bufnr)
 			local opts = {
 				silent = true,
 			}

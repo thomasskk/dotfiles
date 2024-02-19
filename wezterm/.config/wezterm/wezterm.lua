@@ -8,7 +8,6 @@ if wezterm.config_builder then
 end
 
 config.color_scheme = "Kanagawa (Gogh)"
-
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
@@ -26,6 +25,6 @@ config.window_padding = {
 	bottom = 0,
 }
 
-config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+config.font = wezterm.font("Consolas")
 
 return config

@@ -18,18 +18,12 @@ require("conform").setup({
 		sh = { "shfmt" },
 		zsh = { "shfmt" },
 		bash = { "shfmt" },
-		sql = { "sqlfluff" },
+		sql = { "pg_format" },
 		c = { "clang_format" },
 		cpp = { "clang_format" },
 		rust = { "rustfmt" },
 		["*"] = { "codespell" },
 		["_"] = { "trim_whitespace" },
-	},
-
-	formatters = {
-		sqlfluff = {
-			extra_args = { "--dialect", "postgres" },
-		},
 	},
 
 	format_on_save = function(bufnr)
